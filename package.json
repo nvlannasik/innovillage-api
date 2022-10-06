@@ -1,0 +1,31 @@
+{
+  "name": "backend-innovillage",
+  "version": "1.0.0",
+  "description": "Ini merupakan project backend untuk keperluan innovillage",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvlannasik/innovillage-api.git"
+  },
+  "author": "Noval Annasik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nvlannasik/innovillage-api/issues"
+  },
+  "homepage": "https://github.com/nvlannasik/innovillage-api#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "joi": "^17.6.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.3",
+    "mongoose-auto-increment": "^5.0.1",
+    "nodemon": "^2.0.20"
+  }
+}
