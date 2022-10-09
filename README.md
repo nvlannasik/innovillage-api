@@ -62,7 +62,7 @@ Request:
 
 ```json
 {
-  "email": "string",
+  "userName": "string",
   "password": "string"
 }
 ```
@@ -71,14 +71,15 @@ Request:
 
 ```json
 {
-    "status": "success",
-    "message": "User logged in successfully",
-    "data": {
-        "id": "string, unique",
-        "name": "string",
-        "email": "sting"
-    }
-    "accessToken": "token key, unique"
+  "status": "success",
+  "message": "User logged in successfully",
+  "data": {
+    "id": "string, unique",
+    "userName": "string",
+    "name": "string",
+    "email": "sting",
+    "role": "string"
+  },
+  "accessToken": "token key, unique"
 }
-
 ```

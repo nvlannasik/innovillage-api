@@ -82,6 +82,7 @@ router.post("/login", async (req, res) => {
         userName: user.userName,
         email: user.email,
         phoneNumber: user.phoneNumber,
+        role: user.role,
       },
       accessToken: token,
     });
