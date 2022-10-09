@@ -5,22 +5,15 @@ const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth");
 const cors = require("cors");
 
+//cors policy
+app.use(cors());
+
 //Midleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //router Midleware
 app.use("/api/user", authRouter);
-
-//cors policy
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  })
-);
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);
