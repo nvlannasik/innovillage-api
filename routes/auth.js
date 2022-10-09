@@ -25,6 +25,12 @@ router.post("/register", async (req, res) => {
   if (phoneNumberExist)
     return res.status(400).send("Nomor telepon sudah terdaftar");
 
+  //checking if username already exists
+  const userNameExist = await User.findOne({
+    userName: req.body.userName,
+  });
+  if (userNameExist) return res.status(400).send("Username sudah terdaftar");
+
   //Hash password
   const salt = await bcrypt.genSaltSync(10);
   const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
