@@ -118,4 +118,29 @@ router.post("/login", async (req, res) => {
     });
 });
 
+//Create JWT Secret
+const JWT_Secret = "secret";
+//FORGOT PASSWORD
+router.get('/forgot-password', async (req, res, next) => {
+  res.send('FORGOT PASSWORD'); // HIT TAMPILAN FRONTEND
+});
+
+router.post('/forgot-password', async (req, res, next) => {
+  const email = req.body.email; 
+  const user = await User.findOne({ email: req.body.email });
+
+  if (email !== user.email){
+    res.send('Email tidak terdaftar');
+  }
+  const secret = JWT_Secret + user.password;
+  const payload = {
+    email: user.email,
+    id: user._id
+  }
+
+  const token = jwt.sign(payload, secret, { expiresIn: '15m' });
+  const link = `http://127.0.0.1:3000/reset-password/${user._id}/${token}`;
+  res.status(200).send(link);
+});
+
 module.exports = router;
