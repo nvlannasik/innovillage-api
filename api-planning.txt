@@ -55,6 +55,20 @@ res:
     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mjk2NWI0YmZmNmMxYTgwODkyODc1MTUiLCJlbWFpbCI6ImFubmFzaWsxMkBnbWFpbC5jb20iLCJpYXQiOjE2NTQwODAyMzIsImV4cCI6MTY1NDA4NzQzMn0.7i5ksk0iNczNZqvNw96gvnShkVtvnJfJwjQVb9gofIA"
 }
 
+[3] Forgot Password
+
+req:
+{
+    "email": "test@gmail.com"
+}
+
+res: 
+{
+    "status": "success",
+    "message": "Reset password link sent to your email"
+}
+
+
 
 GROUP: Product
 
