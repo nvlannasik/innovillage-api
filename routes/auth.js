@@ -6,7 +6,6 @@ const {
   registerValidation,
   loginValidation,
 } = require("../component/validation");
-const verifyToken = require("./verifyToken");
 require("dotenv").config();
 
 //POST REGISTER
@@ -16,7 +15,7 @@ router.post("/register", async (req, res) => {
 
   //Checking if user already exists
   const emailExist = await User.findOne({ email: req.body.email });
-  if (emailExist) return res.status(400).send("Email sudah terdaftar");
+  if (emailExist) return res.status(400).send("Email already exists");
 
   //checking if phone number already exists
   const phoneNumberExist = await User.findOne({
@@ -30,6 +29,30 @@ router.post("/register", async (req, res) => {
     userName: req.body.userName,
   });
   if (userNameExist) return res.status(400).send("Username sudah terdaftar");
+
+  //checking if username have space
+  const userNameSpace = req.body.userName;
+  if (userNameSpace.includes(" ")) {
+    return res.status(400).send("Username tidak boleh ada spasi");
+  }
+
+  //checking if username have special character
+  const userNameSpecial = req.body.userName;
+  const regex = /^[a-zA-Z0-9]+$/;
+  if (!regex.test(userNameSpecial)) {
+    return res.status(400).send("Username tidak boleh ada karakter spesial");
+  }
+
+  //checking if username using uppercase
+  const userNameUpperCase = req.body.userName;
+  if (userNameUpperCase !== userNameUpperCase.toLowerCase()) {
+    return res.status(400).send("Username tidak boleh menggunakan huruf besar");
+  }
+  //checking if password have space
+  const passwordSpace = req.body.password;
+  if (passwordSpace.includes(" ")) {
+    return res.status(400).send("Password tidak boleh ada spasi");
+  }
 
   //Hash password
   const salt = await bcrypt.genSaltSync(10);
@@ -85,6 +108,7 @@ router.post("/login", async (req, res) => {
       message: "User berhasil login",
       data: {
         _id: user._id,
+        name: user.name,
         userName: user.userName,
         email: user.email,
         phoneNumber: user.phoneNumber,
