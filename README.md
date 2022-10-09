@@ -25,7 +25,8 @@ Request:
   "name": "string",
   "email": "string",
   "password": "string",
-  "phoneNumber": "number"
+  "phoneNumber": "number",
+  "userName": "string"
 }
 ```
 
@@ -42,7 +43,8 @@ Request:
     "password": "string, hashed",
     "role": "string, default: user",
     "phoneNumber": "number",
-    "dateRegist": "date"
+    "dateRegist": "date",
+    "userName": "string"
   }
 }
 ```

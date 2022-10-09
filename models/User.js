@@ -30,6 +30,12 @@ const UserScema = mongoose.Schema(
       type: String,
       default: "user",
     },
+    userName: {
+      type: String,
+      required: true,
+      min: 6,
+      max: 255,
+    },
   },
   { versionKey: false }
 );
