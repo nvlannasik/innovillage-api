@@ -68,6 +68,22 @@ res:
     "message": "Reset password link sent to your email"
 }
 
+[4] Reset Password
+
+req:
+{
+    "password": "test",
+    "confirmPassword": "test"
+}
+
+res:
+{
+    "status": "success",
+    "message": "Password reset successfully"
+}
+
+[5] Get User
+
 
 
 GROUP: Product

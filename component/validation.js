@@ -7,7 +7,11 @@ const registerValidation = (data) => {
     name: Joi.string().min(6).max(255).required(),
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(8).max(1024).required(),
-    phoneNumber: Joi.number().required(),
+    phoneNumber: Joi.string()
+      .min(10)
+      .max(15)
+      .pattern(/^[0-9]+$/)
+      .required(),
     userName: Joi.string().min(6).max(255).required(),
   });
   return schema.validate(data);

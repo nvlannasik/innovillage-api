@@ -133,7 +133,8 @@ router.post("/forgot-password", async (req, res, next) => {
   };
 
   const token = jwt.sign(payload, secret, { expiresIn: "15m" });
-  const link = process.env.HOSTNAME + `/reset-password/${user._id}/${token}`;
+  const link =
+    process.env.HOSTNAME + `/api/user/reset-password/${user._id}/${token}`;
   res.status(200).send(link);
 });
 
