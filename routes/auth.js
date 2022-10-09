@@ -40,6 +40,7 @@ router.post("/register", async (req, res) => {
   try {
     const userSaved = await user.save();
     res.status(201).send({
+      status: "success",
       message: "User berhasil ditambahkan",
       data: {
         user: userSaved,
@@ -55,16 +56,17 @@ router.post("/login", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   //Checking if user already exists
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Email atau password salah");
+  const user = await User.findOne({ userName: req.body.userName });
+  if (!user) return res.status(400).send("Username atau password salah");
 
   //Checking if password is correct
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Email atau password salah");
+  if (!validPassword)
+    return res.status(400).send("Username atau password salah");
 
   //Create token
   const token = jwt.sign(
-    { _id: user._id, email: user.email },
+    { _id: user._id, email: user.userName },
     process.env.TOKEN_SECRET,
     { expiresIn: "2h" }
   );
@@ -73,10 +75,13 @@ router.post("/login", async (req, res) => {
     .header("x-auth-token", token)
     .status(200)
     .send({
+      status: "success",
       message: "User berhasil login",
-      user: {
+      data: {
         _id: user._id,
+        userName: user.userName,
         email: user.email,
+        phoneNumber: user.phoneNumber,
       },
       accessToken: token,
     });
