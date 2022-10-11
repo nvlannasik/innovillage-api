@@ -151,7 +151,7 @@ Request:
     "id": "string, unique",
     "userName": "string",
     "name": "string",
-    "email": "sting",
+    "email": "string", // or {blank} ,
     "role": "string"
   },
   "accessToken": "token key, unique"
