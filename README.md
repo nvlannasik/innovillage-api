@@ -271,7 +271,7 @@ Request:
 
 ```json
 {
-  "null"
+  "id" : "input id for endpoint"
 }
 ```
 
@@ -308,6 +308,7 @@ Request:
 
 ```json
 {
+  "id" : "input id for endpoint",
   "name": "string",
   "description": "string",
   "price": "number",
@@ -350,7 +351,7 @@ Request:
 
 ```json
 {
-  "id" : "id",
+  "id" : "input id for endpoint",
 }
 ```
 
