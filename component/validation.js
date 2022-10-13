@@ -56,7 +56,17 @@ const productRegisterValidation = (data) => {
   return schema.validate(data);
 };
 
+//Order create Validation
+const OrderCreateValidation = (data) => {
+  const schema = Joi.object({
+    id: Joi.string().min(6).max(255).required(),
+    quantity : Joi.number().min(8).max(100).required(),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.petaniRegisterValidation = petaniRegisterValidation;
 module.exports.productRegisterValidation = productRegisterValidation;
+module.exports.OrderCreateValidation = OrderCreateValidation;

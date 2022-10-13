@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth");
 const petaniRouter = require("./routes/petani");
 const productRouter = require("./routes/product");
+const orderRouter = require("./routes/order");
 const cors = require("cors");
 
 //cors policy
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/user", authRouter);
 app.use("/api/petani", petaniRouter);
 app.use("/api/product", productRouter);
+app.use("/api/order", orderRouter);
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);

@@ -365,3 +365,203 @@ Request:
   "message": "Product deleted successfully"
 }
 ```
+## Create Order
+
+Request:
+
+- Method : `POST`
+- Endpoint: `/api/order/`
+- Header :
+  - `Content-Type`: `application/json`
+  - `Accept`: `application/json`
+- Body:
+
+```json
+{
+  "productId": "number",
+  "quantity": "number"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+    "message": "Order created successfully",
+    "data": {
+        "id": 1,
+        "product": [
+          {
+            "id": 1,
+            "name": "Product 1",
+            "description": "Product 1 description",
+            "price": "100.00",
+            "imageUrl": "https://",
+            "timestamps": "2020-01-01 00:00:00",
+          }
+          ],
+        "quantity": 1,
+        "timestamps": "2020-01-01 00:00:00",
+}
+```
+
+## Get All Order
+
+Request:
+
+- Method : `GET`
+- Endpoint: `/api/order/`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "null"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+    "message": "Orders retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "product": {
+                "id": 2,
+                "name": "Product 2",
+                "description": "Product 2 description",
+                "price": "200.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 2,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+    ],
+}
+```
+
+## Get Order By ID
+
+Request:
+
+- Method : `GET`
+- Endpoint: `/api/order/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "id" : "Need ID For Endpoint"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+    "message": "Orders retrieved successfully",
+    "data": 
+        {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+}
+```
+
+## Update Order By ID
+
+Request:
+
+- Method : `PUT`
+- Endpoint: `/api/order/update/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "id" : "Need ID For Endpoint",
+  "productId": "number",
+  "quantity": "number"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+    "message": "Orders updated successfully",
+    "data": 
+        {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+}
+```
+
+## Delete Order By ID
+
+Request:
+
+- Method : `DELETE`
+- Endpoint: `/api/order/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "id" : "Need ID For Endpoint",
+}
+```
+
+- Response:
+
+```json
+{
+    "status": "success",
+    "message": "Order deleted successfully"
+}
+```
+
+
