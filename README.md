@@ -148,7 +148,7 @@ Request:
   "status": "success",
   "message": "User berhasil login",
   "data": {
-    "id": "string, unique",
+    "id": "number, unique",
     "userName": "string",
     "name": "string",
     "email": "string", // or {blank} ,
@@ -157,3 +157,211 @@ Request:
   "accessToken": "token key, unique"
 }
 ```
+
+## Create Product
+
+Request:
+
+- Method : `POST`
+- Endpoint: `/api/product/create`
+- Header :
+  - `Content-Type`: `application/json`
+  - `Accept`: `application/json`
+- Body:
+
+```json
+{
+  "name": "string",
+  "description": "string",
+  "price": "number",
+  "stock": "number",
+  "imageUrl": "https://",
+  "harvestDate": "DD-MM-YYYY HH:mm:ss",
+  "expirationDate": "DD-MM-YYYY HH:mm:ss",
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+  "message": "Product created successfully",
+  "data": {
+    "_id": "number, unique",
+    "name": "string",
+    "description": "string",
+    "price": "number",
+    "stock": "number",
+    "imageUrl": "https://",
+    "harvestDate": "DD-MM-YYYY HH:mm:ss",
+    "expirationDate": "DD-MM-YYYY HH:mm:ss",
+    "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+  },
+}
+```
+## Get All Product
+
+Request:
+
+- Method : `GET`
+- Endpoint: `/api/product/`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "null"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+  "message": "Product retrieved successfully",
+  "data": [
+    {
+      "_id": "1",
+      "name": "string",
+      "description": "string",
+      "price": "number",
+      "stock": "number",
+      "imageUrl": "https://",
+      "harvestDate": "DD-MM-YYYY HH:mm:ss",
+      "expirationDate": "DD-MM-YYYY HH:mm:ss",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+    }
+    {
+      "_id": "2",
+      "name": "string",
+      "description": "string",
+      "price": "number",
+      "stock": "number",
+      "imageUrl": "https://",
+      "harvestDate": "DD-MM-YYYY HH:mm:ss",
+      "expirationDate": "DD-MM-YYYY HH:mm:ss",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+    }
+    {
+      "_id": "3",
+      "name": "string",
+      "description": "string",
+      "price": "number",
+      "stock": "number",
+      "imageUrl": "https://",
+      "harvestDate": "DD-MM-YYYY HH:mm:ss",
+      "expirationDate": "DD-MM-YYYY HH:mm:ss",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+    }
+  ],
+}
+```
+## Get Product By ID
+
+Request:
+
+- Method : `GET`
+- Endpoint: `/api/product/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "null"
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+  "message": "Product retrieved successfully",
+  "data": 
+    {
+      "_id": "1",
+      "name": "string",
+      "description": "string",
+      "price": "number",
+      "stock": "number",
+      "imageUrl": "https://",
+      "harvestDate": "DD-MM-YYYY HH:mm:ss",
+      "expirationDate": "DD-MM-YYYY HH:mm:ss",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+    }
+}
+```
+
+## Update Product By ID
+
+Request:
+
+- Method : `PUT`
+- Endpoint: `/api/product/update/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "name": "string",
+  "description": "string",
+  "price": "number",
+  "stock": "number",
+  "imageUrl": "https://",
+  "harvestDate": "DD-MM-YYYY HH:mm:ss",
+  "expirationDate": "DD-MM-YYYY HH:mm:ss",
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+  "message": "Product updated successfully",
+  "data": 
+    {
+      "_id": "number, unique",
+      "name": "string",
+      "description": "string",
+      "price": "number",
+      "stock": "number",
+      "imageUrl": "https://",
+      "harvestDate": "DD-MM-YYYY HH:mm:ss",
+      "expirationDate": "DD-MM-YYYY HH:mm:ss",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
+    }
+}
+```
+## Delete Product By ID
+
+Request:
+
+- Method : `DELETE`
+- Endpoint: `/api/product/delete/:id`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+
+```json
+{
+  "id" : "id",
+}
+```
+
+- Response:
+
+```json
+{
+  "status": "success",
+  "message": "Product deleted successfully",
+}
+```
+
+
+

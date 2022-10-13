@@ -5,7 +5,13 @@ let connection = mongoose.createConnection(process.env.DB_CONNECTION);
 autoIncrement.initialize(connection);
 
 const ProductSchema = mongoose.Schema({
-  title: {
+  name : {
+    type: String,
+    required: true,
+    min: 6,
+    max: 25,
+  },
+  description : {
     type: String,
     required: true,
     min: 6,
@@ -22,6 +28,14 @@ const ProductSchema = mongoose.Schema({
     min: 0,
   },
   imageUrl: {
+    type: String,
+    required: true,
+  },
+  harvestDate: {
+    type: String,
+    required: true,
+  },
+  expirationDate: {
     type: String,
     required: true,
   },

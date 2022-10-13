@@ -42,6 +42,21 @@ const petaniRegisterValidation = (data) => {
   return schema.validate(data);
 };
 
+//Product Register Validation
+const productRegisterValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(6).max(255).required(),
+    descriptin : Joi.string().min(6).max(255).required(),
+    price : Joi.number().min(8).max(100).required(),
+    stock : Joi.number().min(8).max(100).required(),
+    imgurl : Joi.string().min(6).max(255).required(),
+    harvestDate : Joi.date().format('DD-MM-YYYY HH:mm:ss').required(),
+    expirationDate : Joi.date().format('DD-MM-YYYY HH:mm:ss').required(),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.petaniRegisterValidation = petaniRegisterValidation;
+module.exports.productRegisterValidation = productRegisterValidation;
