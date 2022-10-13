@@ -64,7 +64,7 @@ router.post("/register", async (req, res) => {
   });
   try {
     const savedAdmin = await admin.save();
-    res.send({
+    res.status(201).send({
       status: "success",
       message: "Admin created successfully",
       data: {
@@ -96,16 +96,26 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign(
     {
       _id: admin._id,
+      email: admin.email,
     },
     process.env.TOKEN_SECRET
   );
-  res.header("auth-token", token).send({
-    status: "success",
-    message: "Login successfully",
-    data: {
+  res
+    .header("x-auth-token", token)
+    .status(201)
+    .send({
+      status: "success",
+      message: "Admin login successfully",
+      data: {
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        phoneNumber: admin.phoneNumber,
+        userName: admin.userName,
+        role: admin.role,
+      },
       token: token,
-    },
-  });
+    });
 });
 
 module.exports = router;

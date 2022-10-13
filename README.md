@@ -365,6 +365,7 @@ Request:
   "message": "Product deleted successfully"
 }
 ```
+
 ## Create Order
 
 Request:
@@ -427,35 +428,35 @@ Request:
 ```json
 {
   "status": "success",
-    "message": "Orders retrieved successfully",
-    "data": [
-        {
-            "id": 1,
-            "product": {
-                "id": 1,
-                "name": "Product 1",
-                "description": "Product 1 description",
-                "price": "100.00",
-                "imageUrl": "https://",
-                "timestamps": "2020-01-01 00:00:00",
-            },
-            "quantity": 1,
-            "timestamps": "2020-01-01 00:00:00",
-        },
-        {
-            "id": 2,
-            "product": {
-                "id": 2,
-                "name": "Product 2",
-                "description": "Product 2 description",
-                "price": "200.00",
-                "imageUrl": "https://",
-                "timestamps": "2020-01-01 00:00:00",
-            },
-            "quantity": 2,
-            "timestamps": "2020-01-01 00:00:00",
-        },
-    ],
+  "message": "Orders retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "product": {
+        "id": 1,
+        "name": "Product 1",
+        "description": "Product 1 description",
+        "price": "100.00",
+        "imageUrl": "https://",
+        "timestamps": "2020-01-01 00:00:00"
+      },
+      "quantity": 1,
+      "timestamps": "2020-01-01 00:00:00"
+    },
+    {
+      "id": 2,
+      "product": {
+        "id": 2,
+        "name": "Product 2",
+        "description": "Product 2 description",
+        "price": "200.00",
+        "imageUrl": "https://",
+        "timestamps": "2020-01-01 00:00:00"
+      },
+      "quantity": 2,
+      "timestamps": "2020-01-01 00:00:00"
+    }
+  ]
 }
 ```
 
@@ -471,7 +472,7 @@ Request:
 
 ```json
 {
-  "id" : "Need ID For Endpoint"
+  "id": "Need ID For Endpoint"
 }
 ```
 
@@ -480,21 +481,20 @@ Request:
 ```json
 {
   "status": "success",
-    "message": "Orders retrieved successfully",
-    "data": 
-        {
-            "id": 1,
-            "product": {
-                "id": 1,
-                "name": "Product 1",
-                "description": "Product 1 description",
-                "price": "100.00",
-                "imageUrl": "https://",
-                "timestamps": "2020-01-01 00:00:00",
-            },
-            "quantity": 1,
-            "timestamps": "2020-01-01 00:00:00",
-        },
+  "message": "Orders retrieved successfully",
+  "data": {
+    "id": 1,
+    "product": {
+      "id": 1,
+      "name": "Product 1",
+      "description": "Product 1 description",
+      "price": "100.00",
+      "imageUrl": "https://",
+      "timestamps": "2020-01-01 00:00:00"
+    },
+    "quantity": 1,
+    "timestamps": "2020-01-01 00:00:00"
+  }
 }
 ```
 
@@ -510,7 +510,7 @@ Request:
 
 ```json
 {
-  "id" : "Need ID For Endpoint",
+  "id": "Need ID For Endpoint",
   "productId": "number",
   "quantity": "number"
 }
@@ -521,21 +521,20 @@ Request:
 ```json
 {
   "status": "success",
-    "message": "Orders updated successfully",
-    "data": 
-        {
-            "id": 1,
-            "product": {
-                "id": 1,
-                "name": "Product 1",
-                "description": "Product 1 description",
-                "price": "100.00",
-                "imageUrl": "https://",
-                "timestamps": "2020-01-01 00:00:00",
-            },
-            "quantity": 1,
-            "timestamps": "2020-01-01 00:00:00",
-        },
+  "message": "Orders updated successfully",
+  "data": {
+    "id": 1,
+    "product": {
+      "id": 1,
+      "name": "Product 1",
+      "description": "Product 1 description",
+      "price": "100.00",
+      "imageUrl": "https://",
+      "timestamps": "2020-01-01 00:00:00"
+    },
+    "quantity": 1,
+    "timestamps": "2020-01-01 00:00:00"
+  }
 }
 ```
 
@@ -551,7 +550,7 @@ Request:
 
 ```json
 {
-  "id" : "Need ID For Endpoint",
+  "id": "Need ID For Endpoint"
 }
 ```
 
@@ -559,9 +558,35 @@ Request:
 
 ```json
 {
-    "status": "success",
-    "message": "Order deleted successfully"
+  "status": "success",
+  "message": "Order deleted successfully"
 }
 ```
 
+## Admin Login
 
+Request:
+
+- Method : `POST`
+- Endpoint: `/api/admin/login`
+- Header :
+  - `Content-Type`: `application/json`
+- Body:
+  ```json
+  {
+    "email": "string",
+    "password": "string"
+  }
+  ```
+- Response:
+  ```json
+  {
+  "status": "success",
+  "message": "Login successfully",
+  "data": {
+      "id": "number",
+      "email": "string",
+      "password": "string",
+      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)"
+  }
+  ```
