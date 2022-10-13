@@ -56,13 +56,15 @@ const productRegisterValidation = (data) => {
   return schema.validate(data);
 };
 
-<<<<<<< HEAD
 //Order create Validation
 const OrderCreateValidation = (data) => {
   const schema = Joi.object({
     id: Joi.string().min(6).max(255).required(),
     quantity : Joi.number().min(8).max(100).required(),
-=======
+    
+  });
+  return schema.validate(data);
+};
 //ADMIN Register Validation
 
 const adminRegisterValidation = (data) => {
@@ -76,15 +78,11 @@ const adminRegisterValidation = (data) => {
       .pattern(/^[0-9]+$/)
       .required(),
     userName: Joi.string().min(6).max(255).required(),
->>>>>>> 5044fa7d1cf95cc95ebedf316fc9a34eb43fd505
   });
   return schema.validate(data);
 };
 
-<<<<<<< HEAD
-=======
 module.exports.adminRegisterValidation = adminRegisterValidation;
->>>>>>> 5044fa7d1cf95cc95ebedf316fc9a34eb43fd505
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.petaniRegisterValidation = petaniRegisterValidation;
