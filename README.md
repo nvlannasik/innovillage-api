@@ -83,6 +83,7 @@ Request:
   "accessToken": "token key, unique"
 }
 ```
+
 ## Petani Register
 
 Request:
@@ -97,7 +98,7 @@ Request:
 ```json
 {
   "name": "string",
-  "email": "string" ,// {Optional} ,
+  "email": "string", // {Optional} ,
   "password": "string",
   "phoneNumber": "number",
   "userName": "string"
@@ -163,7 +164,7 @@ Request:
 Request:
 
 - Method : `POST`
-- Endpoint: `/api/product/create`
+- Endpoint: `/api/product/`
 - Header :
   - `Content-Type`: `application/json`
   - `Accept`: `application/json`
@@ -177,7 +178,7 @@ Request:
   "stock": "number",
   "imageUrl": "https://",
   "harvestDate": "DD-MM-YYYY HH:mm:ss",
-  "expirationDate": "DD-MM-YYYY HH:mm:ss",
+  "expirationDate": "DD-MM-YYYY HH:mm:ss"
 }
 ```
 
@@ -196,10 +197,11 @@ Request:
     "imageUrl": "https://",
     "harvestDate": "DD-MM-YYYY HH:mm:ss",
     "expirationDate": "DD-MM-YYYY HH:mm:ss",
-    "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
-  },
+    "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)"
+  }
 }
 ```
+
 ## Get All Product
 
 Request:
@@ -259,6 +261,7 @@ Request:
   ],
 }
 ```
+
 ## Get Product By ID
 
 Request:
@@ -271,7 +274,7 @@ Request:
 
 ```json
 {
-  "id" : "input id for endpoint"
+  "id": "input id for endpoint"
 }
 ```
 
@@ -281,18 +284,17 @@ Request:
 {
   "status": "success",
   "message": "Product retrieved successfully",
-  "data": 
-    {
-      "_id": "1",
-      "name": "string",
-      "description": "string",
-      "price": "number",
-      "stock": "number",
-      "imageUrl": "https://",
-      "harvestDate": "DD-MM-YYYY HH:mm:ss",
-      "expirationDate": "DD-MM-YYYY HH:mm:ss",
-      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
-    }
+  "data": {
+    "_id": "1",
+    "name": "string",
+    "description": "string",
+    "price": "number",
+    "stock": "number",
+    "imageUrl": "https://",
+    "harvestDate": "DD-MM-YYYY HH:mm:ss",
+    "expirationDate": "DD-MM-YYYY HH:mm:ss",
+    "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)"
+  }
 }
 ```
 
@@ -301,21 +303,21 @@ Request:
 Request:
 
 - Method : `PUT`
-- Endpoint: `/api/product/update/:id`
+- Endpoint: `/api/product/:id`
 - Header :
   - `Content-Type`: `application/json`
 - Body:
 
 ```json
 {
-  "id" : "input id for endpoint",
+  "id": "input id for endpoint",
   "name": "string",
   "description": "string",
   "price": "number",
   "stock": "number",
   "imageUrl": "https://",
   "harvestDate": "DD-MM-YYYY HH:mm:ss",
-  "expirationDate": "DD-MM-YYYY HH:mm:ss",
+  "expirationDate": "DD-MM-YYYY HH:mm:ss"
 }
 ```
 
@@ -325,33 +327,33 @@ Request:
 {
   "status": "success",
   "message": "Product updated successfully",
-  "data": 
-    {
-      "_id": "number, unique",
-      "name": "string",
-      "description": "string",
-      "price": "number",
-      "stock": "number",
-      "imageUrl": "https://",
-      "harvestDate": "DD-MM-YYYY HH:mm:ss",
-      "expirationDate": "DD-MM-YYYY HH:mm:ss",
-      "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)",
-    }
+  "data": {
+    "_id": "number, unique",
+    "name": "string",
+    "description": "string",
+    "price": "number",
+    "stock": "number",
+    "imageUrl": "https://",
+    "harvestDate": "DD-MM-YYYY HH:mm:ss",
+    "expirationDate": "DD-MM-YYYY HH:mm:ss",
+    "timestamps": "ISO DATE Ex : (2022-10-13T05:18:39.105Z)"
+  }
 }
 ```
+
 ## Delete Product By ID
 
 Request:
 
 - Method : `DELETE`
-- Endpoint: `/api/product/delete/:id`
+- Endpoint: `/api/product/:id`
 - Header :
   - `Content-Type`: `application/json`
 - Body:
 
 ```json
 {
-  "id" : "input id for endpoint",
+  "id": "input id for endpoint"
 }
 ```
 
@@ -360,9 +362,6 @@ Request:
 ```json
 {
   "status": "success",
-  "message": "Product deleted successfully",
+  "message": "Product deleted successfully"
 }
 ```
-
-
-
