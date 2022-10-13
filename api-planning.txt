@@ -5,6 +5,8 @@ http://10.10.10.10/api/auth/login
 Standard Status Response:
 200 - OK            --> Call API Successful
 201 - Created       --> POST Successful
+203 - Accepted      --> PUT Successful
+204 - No Content    --> DELETE Successful
 400 - Bad Request   --> Invalid Request
 401 - Unauthorized  --> Invalid Credentials
 403 - Forbidden     --> Invalid Permissions
