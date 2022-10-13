@@ -155,7 +155,10 @@ req:
     "name": "Product 1",
     "description": "Product 1 description",
     "price": "100.00",
-    "imageUrl": "https://"
+    "imageUrl": "https://",
+    "stock": 10,
+    "harvestDate": "2020-01-01 00:00:00",
+    "expirationDate": "2020-01-01 00:00:00" 
 }
 
 res: {
@@ -168,6 +171,9 @@ res: {
         "price": "100.00",
         "imageUrl": "https://",
         "timestamps": "2020-01-01 00:00:00",
+        "stock": 10,
+        "harvestDate": "2020-01-01 00:00:00",
+        "expirationDate": "2020-01-01 00:00:00"
     }
 }
 
@@ -179,7 +185,10 @@ req:
     "name": "Product 1",
     "description": "Product 1 description",
     "price": "100.00",
-    "imageUrl": "https://"
+    "imageUrl": "https://",
+    "stock": 10,
+    "harvestDate": "2020-01-01 00:00:00",
+    "expirationDate": "2020-01-01 00:00:00"
 }
 
 res: {
@@ -192,6 +201,9 @@ res: {
         "price": "100.00",
         "imageUrl": "https://",
         "timestamps": "2020-01-01 00:00:00",
+        "stock": 10,
+        "harvestDate": "2020-01-01 00:00:00",
+        "expirationDate": "2020-01-01 00:00:00"
     }
 }
 
@@ -211,6 +223,9 @@ res: {
         "price": "100.00",
         "imageUrl": "https://",
         "timestamps": "2020-01-01 00:00:00",
+        "stock": 10,
+        "harvestDate": "2020-01-01 00:00:00",
+        "expirationDate": "2020-01-01 00:00:00"
     }
 }
 
@@ -537,3 +552,598 @@ res: {
     }
 }
 
+GROUP: transaction
+
+[1] - Get all transactions
+
+req:
+{
+    "page": 1,
+    "limit": 10
+}
+
+res:
+{
+    "status": "success",
+    "message": "Transactions retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 1,
+                    "name": "Product 1",
+                    "description": "Product 1 description",
+                    "price": "100.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 1,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "user": {
+                "id": 2,
+                "name": "User 2",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 2,
+                "product": {
+                    "id": 2,
+                    "name": "Product 2",
+                    "description": "Product 2 description",
+                    "price": "200.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 2,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 3,
+            "user": {
+                "id": 3,
+                "name": "User 3",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 3,
+                "product": {
+                    "id": 3,
+                    "name": "Product 3",
+                    "description": "Product 3 description",
+                    "price": "300.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 3,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        }
+    ]
+}
+    
+[2] - Get transaction by id
+
+req:
+{
+    "id": 1
+}
+
+res:
+{
+    "status": "success",
+    "message": "Transaction retrieved successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[3] - Create transaction
+
+req:
+{
+    "userId": 1,
+    "orderId": 1
+}
+
+res: {
+    "status": "success",
+    "message": "Transaction created successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[4] - Update transaction
+
+req:
+{
+    "id": 1,
+    "userId": 1,
+    "orderId": 1
+}
+
+
+res: {
+    "status": "success",
+    "message": "Transaction updated successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[5] - Delete transaction
+
+req:
+{
+    "id": 1
+}
+
+res: {
+    "status": "success",
+    "message": "Transaction deleted successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[6] - Get transaction by user id
+
+req:
+{
+    "userId": 1
+}
+
+res:
+{
+    "status": "success",
+    "message": "Transaction retrieved successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[7] - Get transaction by order id
+
+req:
+{
+    "orderId": 1
+}
+
+res:
+{
+    "status": "success",
+    "message": "Transaction retrieved successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+[8] - Get transaction by user id and order id
+
+req:
+{
+    "userId": 1,
+    "orderId": 1
+}
+
+res:
+{
+    "status": "success",
+    "message": "Transaction retrieved successfully",
+    "data": {
+        "id": 1,
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "",
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "order": {
+            "id": 1,
+            "product": {
+                "id": 1,
+                "name": "Product 1",
+                "description": "Product 1 description",
+                "price": "100.00",
+                "imageUrl": "https://",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "quantity": 1,
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        "timestamps": "2020-01-01 00:00:00",
+    }
+}
+
+
+GROUP: history transaction
+
+[1] - Get all history transaction
+
+req:
+{
+    "page": 1,
+    "limit": 10
+}
+
+res:
+{
+    "status": "success",
+    "message": "History transaction retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 1,
+                    "name": "Product 1",
+                    "description": "Product 1 description",
+                    "price": "100.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 1,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 2,
+                "product": {
+                    "id": 2,
+                    "name": "Product 2",
+                    "description": "Product 2 description",
+                    "price": "200.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 2,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        }
+    ]
+}
+
+[2] - Get history transaction by user id
+
+req:
+{
+    "userId": 1,
+    "page": 1,
+    "limit": 10
+}
+
+res:
+{
+    "status": "success",
+    "message": "History transaction retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 1,
+                    "name": "Product 1",
+                    "description": "Product 1 description",
+                    "price": "100.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 1,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 2,
+                "product": {
+                    "id": 2,
+                    "name": "Product 2",
+                    "description": "Product 2 description",
+                    "price": "200.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 2,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        }
+    ]
+}
+
+[3] - Get history transaction by order id
+
+req:
+{
+    "orderId": 1,
+    "page": 1,
+    "limit": 10
+}
+
+res:
+{
+    "status": "success",
+    "message": "History transaction retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 1,
+                    "name": "Product 1",
+                    "description": "Product 1 description",
+                    "price": "100.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 1,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 2,
+                    "name": "Product 2",
+                    "description": "Product 2 description",
+                    "price": "200.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 2,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        }
+    ]
+}
+
+[4] - Get history transaction by user id and order id
+
+req:
+{
+    "userId": 1,
+    "orderId": 1,
+    "page": 1,
+    "limit": 10
+}
+
+res:
+{
+    "status": "success",
+    "message": "History transaction retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 1,
+                    "name": "Product 1",
+                    "description": "Product 1 description",
+                    "price": "100.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 1,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        },
+        {
+            "id": 2,
+            "user": {
+                "id": 1,
+                "name": "User 1",
+                "email": "",
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "order": {
+                "id": 1,
+                "product": {
+                    "id": 2,
+                    "name": "Product 2",
+                    "description": "Product 2 description",
+                    "price": "200.00",
+                    "imageUrl": "https://",
+                    "timestamps": "2020-01-01 00:00:00",
+                },
+                "quantity": 2,
+                "timestamps": "2020-01-01 00:00:00",
+            },
+            "timestamps": "2020-01-01 00:00:00",
+        }
+    ]
+}
