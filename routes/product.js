@@ -4,7 +4,7 @@ const authenticateJWT = require("./verifyToken");
 const { productValidation } = require("../component/validation");
 
 //Create product
-router.post("/create", async (req, res) => {
+router.post("/", async (req, res) => {
   //Create new product
   const product = new Product({
     name : req.body.name,
@@ -65,7 +65,7 @@ router.get("/", async (req, res) => {
 //UPDATE Product by ID
 router.put("/:id", async (req, res) => {
   try {
-    const product = await Product.updateOne(
+    await Product.updateOne(
       { _id: req.params.id },
       {
         $set: {
@@ -94,14 +94,19 @@ router.put("/:id", async (req, res) => {
 
 //DELETE Product by ID
 router.delete("/:id", async (req, res) => {
-  try {
-    const product = await Product.deleteOne({ _id: req.params.id });
+  if (req.params.id == null) {
+    res.status(400).send("ID is required");
+  }
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    res.status(400).send("Product not found");
+  }
+  else {
+    await Product.deleteOne({ _id: req.params.id });
     res.status(200).send({
       status: "success",
       message: "Product deleted successfully",
     });
-  } catch (err) {
-    res.status(400).send(err);
   }
 });
 
