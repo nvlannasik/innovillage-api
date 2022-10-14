@@ -4,32 +4,34 @@ const authenticateJWT = require("./verifyToken");
 const { productValidation } = require("../component/validation");
 
 //Create product
-router.post("/", authenticateJWT, async (req, res) => {
+router.post("/create", async (req, res) => {
+  //Create new product
   const product = new Product({
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.price,
-    stock: req.body.stock,
-    imageUrl: req.body.imageUrl,
-    harvestDate: req.body.harvestDate,
-    expirationDate: req.body.expirationDate,
+    name : req.body.name,
+    description : req.body.description,
+    price : req.body.price,
+    stock : req.body.stock,
+    imageUrl : req.body.imageUrl,
+    harvestDate : req.body.harvestDate,
+    expirationDate : req.body.expirationDate,
   });
   try {
-    const productSaved = await product.save();
-    res.status(201).send({
-      status: "success",
-      message: "Product created successfully",
-      data: {
-        product: productSaved,
-      },
-    });
+    const savedProduct = await product.save();
+    res.status(200).send({ 
+      status : "success",
+      message : "Product created successfully",
+      data : {
+        product : savedProduct,
+      }
+     });
   } catch (err) {
     res.status(400).send(err);
   }
 });
 
+
 //GET Product By ID
-router.get("/:id", authenticateJWT, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     res.status(200).send({
@@ -45,7 +47,7 @@ router.get("/:id", authenticateJWT, async (req, res) => {
 });
 
 //GET All Product
-router.get("/", authenticateJWT, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).send({
@@ -61,7 +63,7 @@ router.get("/", authenticateJWT, async (req, res) => {
 });
 
 //UPDATE Product by ID
-router.put("/:id", authenticateJWT, async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const product = await Product.updateOne(
       { _id: req.params.id },
@@ -91,16 +93,10 @@ router.put("/:id", authenticateJWT, async (req, res) => {
 });
 
 //DELETE Product by ID
-router.delete("/:id", authenticateJWT, async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).send({
-      status: "error",
-      message: "Product id is required",
-    });
-  }
+router.delete("/:id", async (req, res) => {
   try {
-    await Product.deleteOne({ _id: req.params.id });
-    res.status(204).send({
+    const product = await Product.deleteOne({ _id: req.params.id });
+    res.status(200).send({
       status: "success",
       message: "Product deleted successfully",
     });
@@ -108,5 +104,6 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
     res.status(400).send(err);
   }
 });
+
 
 module.exports = router;
