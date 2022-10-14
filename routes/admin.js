@@ -114,7 +114,7 @@ router.post("/login", async (req, res) => {
         userName: admin.userName,
         role: admin.role,
       },
-      token: token,
+      accessToken: token,
     });
 });
 
