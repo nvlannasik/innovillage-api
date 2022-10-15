@@ -270,14 +270,6 @@ Request:
 - Endpoint: `/api/product/:id`
 - Header :
   - `Content-Type`: `application/json`
-- Body:
-
-```json
-{
-  "id": "input id for endpoint"
-}
-```
-
 - Response:
 
 ```json
@@ -348,14 +340,8 @@ Request:
 - Method : `DELETE`
 - Endpoint: `/api/product/:id`
 - Header :
-  - `Content-Type`: `application/json`
-- Body:
 
-```json
-{
-  "id": "input id for endpoint"
-}
-```
+  - `Content-Type`: `application/json`
 
 - Response:
 

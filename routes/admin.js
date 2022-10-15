@@ -98,10 +98,10 @@ router.post("/login", async (req, res) => {
       _id: admin._id,
       email: admin.email,
     },
-    process.env.TOKEN_SECRET
+    process.env.TOKEN_ADMIN_SECRET
   );
   res
-    .header("x-auth-token", token)
+    .header("x-auth-token-admin", token)
     .status(201)
     .send({
       status: "success",

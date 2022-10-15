@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
-const authenticateJWT = require("./verifyToken");
+const authenticateJWT = require("../component/verifyToken");
 const { productValidation } = require("../component/validation");
 
 //Create product
@@ -92,20 +92,18 @@ router.put("/:id", authenticateJWT, async (req, res) => {
 
 //DELETE Product by ID
 router.delete("/:id", authenticateJWT, async (req, res) => {
-  if (!req.params.id) {
-    res.status(400).send({
-      status: "error",
-      message: "Product id is required",
-    });
+  if (req.params.id == null) {
+    res.status(400).send("ID is required");
   }
-  try {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    res.status(404).send("Product not found");
+  } else {
     await Product.deleteOne({ _id: req.params.id });
-    res.status(204).send({
+    res.status(202).send({
       status: "success",
       message: "Product deleted successfully",
     });
-  } catch (err) {
-    res.status(400).send(err);
   }
 });
 

@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+autoIncrement = require("mongoose-auto-increment");
+require("dotenv");
+let connection = mongoose.createConnection(process.env.DB_CONNECTION);
+autoIncrement.initialize(connection);
+
 const PetaniScema = mongoose.Schema(
   {
     name: {
@@ -39,4 +44,5 @@ const PetaniScema = mongoose.Schema(
   { versionKey: false }
 );
 
+PetaniScema.plugin(autoIncrement.plugin, "Petani");
 module.exports = mongoose.model("Petani", PetaniScema);
