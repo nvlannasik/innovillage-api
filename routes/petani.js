@@ -116,36 +116,4 @@ router.post("/login", async (req, res) => {
     });
 });
 
-// DELETE AKUN PETANI
-
-router.delete("/:id", authenticateAdminJWT, async (req, res) => {
-  try {
-    const removePetani = await Petani.remove({ _id: req.params.id });
-    res.json(removePetani);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
-
-// UPDATE AKUN PETANI
-
-router.patch("/:id", authenticateAdminJWT, async (req, res) => {
-  try {
-    const updatePetani = await Petani.updateOne(
-      { _id: req.params.id },
-      {
-        $set: {
-          name: req.body.name,
-          email: req.body.email,
-          phoneNumber: req.body.phoneNumber,
-          password: req.body.password,
-        },
-      }
-    );
-    res.json(updatePetani);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
-
 module.exports = router;

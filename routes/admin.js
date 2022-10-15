@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const Admin = require("../models/Admin");
+const Petani = require("../models/Petani");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {
   adminRegisterValidation,
   loginValidation,
 } = require("../component/validation");
+const authenticateAdminJWT = require("../component/verifyTokenAdmin");
 
 //POST REGISTER
 
@@ -116,6 +118,78 @@ router.post("/login", async (req, res) => {
       },
       accessToken: token,
     });
+});
+
+// GET ALL PETANI
+
+router.get("/petani", authenticateAdminJWT, async (req, res) => {
+  try {
+    const petani = await Petani.find();
+    res.status(200).send({
+      status: "success",
+      message: "Get all petani successfully",
+      data: {
+        petani,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// GET PETANI BY ID
+
+router.get("/petani/:id", authenticateAdminJWT, async (req, res) => {
+  try {
+    const petani = await Petani.findById(req.params.id);
+    res.status(200).send({
+      status: "success",
+      message: "Get petani by id successfully",
+      data: {
+        petani,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// DELETE PETANI BY ID
+
+router.delete("/petani/:id", authenticateAdminJWT, async (req, res) => {
+  try {
+    const petani = await Petani.findByIdAndDelete(req.params.id);
+    res.status(200).send({
+      status: "success",
+      message: "Delete petani by id successfully",
+      data: {
+        petani,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+// UPDATE PETANI BY ID
+
+router.patch("/petani/:id", authenticateAdminJWT, async (req, res) => {
+  try {
+    const updatePetani = await Petani.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          password: req.body.password,
+        },
+      }
+    );
+    res.json(updatePetani);
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
 module.exports = router;
