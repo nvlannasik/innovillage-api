@@ -7,6 +7,7 @@ const petaniRouter = require("./routes/petani");
 const productRouter = require("./routes/product");
 const orderRouter = require("./routes/order");
 const adminRouter = require("./routes/admin");
+const dashboardRouter = require("./routes/dashboard");
 const cors = require("cors");
 
 //cors policy
@@ -22,7 +23,7 @@ app.use("/api/petani", petaniRouter);
 app.use("/api/product", productRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/admin", adminRouter);
-
+app.use("/api/dashboard", dashboardRouter);
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);

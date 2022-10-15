@@ -45,7 +45,7 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const orders = await Order.find();
-    res.status(200).ssend({
+    res.status(200).send({
       status: "success",
       message: "Order retrieved successfully",
       data: {

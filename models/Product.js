@@ -40,6 +40,14 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    petaniId: {
+      type: Number,
+      required: true,
+    },
+    petaniName: {
+      type: String,
+      required: true,
+    },
     timestamps: {
       type: Date,
       default: Date.now,

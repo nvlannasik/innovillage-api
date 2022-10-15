@@ -13,6 +13,8 @@ router.post("/", authenticateJWT, async (req, res) => {
     imageUrl: req.body.imageUrl,
     harvestDate: req.body.harvestDate,
     expirationDate: req.body.expirationDate,
+    petaniId: req.body.petaniId,
+    petaniName: req.body.petaniName,
   });
   try {
     const productSaved = await product.save();
@@ -104,6 +106,21 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
       status: "success",
       message: "Product deleted successfully",
     });
+  }
+});
+
+router.get("/test", async (req, res) => {
+  try {
+    const count = await Product.countDocuments();
+    res.status(200).send({
+      status: "success",
+      message: "Product retrieved successfully",
+      data: {
+        count: count,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
 
