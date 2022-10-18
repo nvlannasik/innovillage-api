@@ -46,4 +46,21 @@ router.get("/:id", authenticateJWT, async (req, res) => {
   }
 });
 
+//GET All Transaksi specific user
+
+router.get("/user/:id", authenticateJWT, async (req, res) => {
+  try {
+    const transaksi = await Transaksi.find({ userId: req.params.id });
+    res.status(200).send({
+      status: "success",
+      message: "Transaksi retrieved successfully",
+      data: {
+        transaksi: transaksi,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 module.exports = router;
