@@ -47,7 +47,7 @@ router.get("/:id", authenticateJWT, async (req, res) => {
 });
 
 //GET All Product
-router.get("/", authenticateJWT, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     res.status(200).send({
@@ -106,21 +106,6 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
       status: "success",
       message: "Product deleted successfully",
     });
-  }
-});
-
-router.get("/test", async (req, res) => {
-  try {
-    const count = await Product.countDocuments();
-    res.status(200).send({
-      status: "success",
-      message: "Product retrieved successfully",
-      data: {
-        count: count,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
   }
 });
 
