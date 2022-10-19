@@ -63,4 +63,24 @@ router.get("/user/:id", authenticateJWT, async (req, res) => {
   }
 });
 
+//API CALL BACK FROM MIDTRANS
+
+router.post("/callback", async (req, res) => {
+  try {
+    const transaksi = await Transaksi.findOneAndUpdate(
+      { orderId: req.body.orderId },
+      { transactionStatus: req.body.transactionStatus },
+      { new: true }
+    );
+    res.status(200).send({
+      status: "success",
+      message: "Transaksi retrieved successfully",
+      data: {
+        transaksi: transaksi,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 module.exports = router;
