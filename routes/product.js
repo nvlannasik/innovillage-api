@@ -4,6 +4,7 @@ const Petani = require("../models/Petani");
 const authenticatePetaniJWT = require("../component/verifyTokenPetani");
 
 //Create product
+
 router.post("/", authenticatePetaniJWT, async (req, res) => {
   const product = new Product({
     name: req.body.name,
