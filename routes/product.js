@@ -13,7 +13,7 @@ router.post("/", authenticatePetaniJWT, async (req, res) => {
     imageUrl: req.body.imageUrl,
     harvestDate: req.body.harvestDate,
     expirationDate: req.body.expirationDate,
-    petaniId: await Petani.findById(req.body.petaniId),
+    petaniId: await Petani.findById({ _id: req.body.petaniId }),
     petaniName: req.body.petaniName,
   });
   try {
