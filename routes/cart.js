@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
 const Cart = require("../models/Cart");
+const authenticateJWT = require("../component/verifyToken");
 
 //Create cart
 
-router.post("/", async (req, res) => {
+router.post("/", authenticateJWT, async (req, res) => {
   let arrayProduct = [req.body.productId];
   const cart = new Cart({
     productId: arrayProduct,
@@ -15,11 +16,34 @@ router.post("/", async (req, res) => {
   });
 
   const checkStock = await Product.findById(req.body.productId);
+  //checkstock if null
+  if (checkStock == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Product not found",
+    });
+  }
+
   if (checkStock.stock < req.body.quantity) {
     return res.status(400).send({
       status: "failed",
       message: "Stock is not enough",
     });
+  }
+
+  //check if product already in cart
+  const checkCart = await Cart.findOne({ userId: req.body.userId });
+  if (checkCart != null) {
+    const checkProduct = await Cart.findOne({
+      userId: req.body.userId,
+      productId: req.body.productId,
+    });
+    if (checkProduct != null) {
+      return res.status(400).send({
+        status: "failed",
+        message: "Product already in cart",
+      });
+    }
   }
 
   try {
@@ -38,7 +62,7 @@ router.post("/", async (req, res) => {
 
 //GET Cart By ID
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateJWT, async (req, res) => {
   try {
     const cart = await Cart.findById(req.params.id);
     res.status(200).send({
@@ -55,7 +79,7 @@ router.get("/:id", async (req, res) => {
 
 //GET All Cart
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateJWT, async (req, res) => {
   try {
     const carts = await Cart.find();
     res.status(200).send({
@@ -72,18 +96,15 @@ router.get("/", async (req, res) => {
 
 //Update Cart
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", authenticateJWT, async (req, res) => {
   try {
     const cart = await Cart.updateOne(
       { _id: req.params.id },
       { $set: { quantity: req.body.quantity } }
     );
-    res.status(200).send({
+    res.status(203).send({
       status: "success",
       message: "Cart updated successfully",
-      data: {
-        cart: cart,
-      },
     });
   } catch (err) {
     res.status(400).send(err);
@@ -92,15 +113,12 @@ router.patch("/:id", async (req, res) => {
 
 //Delete Cart
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateJWT, async (req, res) => {
   try {
     const cart = await Cart.deleteOne({ _id: req.params.id });
-    res.status(200).send({
+    res.status(202).send({
       status: "success",
       message: "Cart deleted successfully",
-      data: {
-        cart: cart,
-      },
     });
   } catch (err) {
     res.status(400).send(err);
