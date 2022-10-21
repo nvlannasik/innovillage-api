@@ -9,7 +9,10 @@ const orderRouter = require("./routes/order");
 const adminRouter = require("./routes/admin");
 const dashboardRouter = require("./routes/dashboard");
 const transaksiRouter = require("./routes/transaksi");
+const refreshTokenRouter = require("./routes/refreshToken");
+const cartRouter = require("./routes/cart");
 const cors = require("cors");
+require("dotenv").config();
 
 //cors policy
 app.use(cors());
@@ -26,6 +29,8 @@ app.use("/api/order", orderRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/transaksi", transaksiRouter);
+app.use("/api/refresh-token", refreshTokenRouter);
+app.use("/api/cart", cartRouter);
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);
@@ -38,6 +43,6 @@ db.once("open", () => {
   console.log("Database Berhasil Terkoneksi");
 });
 //listening port
-app.listen(3000, () => {
+app.listen(process.env.PORT_SERVER, () => {
   console.log("Server Berhasil Terhubung");
 });
