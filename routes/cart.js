@@ -97,6 +97,15 @@ router.get("/", authenticateJWT, async (req, res) => {
 //Update Cart
 
 router.patch("/:id", authenticateJWT, async (req, res) => {
+  //check if id not found
+  const checkCart = await Cart.findById(req.params.id);
+  if (checkCart == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Cart not found",
+    });
+  }
+
   try {
     const cart = await Cart.updateOne(
       { _id: req.params.id },
@@ -114,6 +123,15 @@ router.patch("/:id", authenticateJWT, async (req, res) => {
 //Delete Cart
 
 router.delete("/:id", authenticateJWT, async (req, res) => {
+  //check if id not found
+  const checkCart = await Cart.findById(req.params.id);
+  if (checkCart == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Cart not found",
+    });
+  }
+
   try {
     const cart = await Cart.deleteOne({ _id: req.params.id });
     res.status(202).send({
