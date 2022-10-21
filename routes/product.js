@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
-const authenticateJWT = require("../component/verifyToken");
-const { productValidation } = require("../component/validation");
+const Petani = require("../models/Petani");
+const authenticatePetaniJWT = require("../component/verifyTokenPetani");
 
 //Create product
-router.post("/", authenticateJWT, async (req, res) => {
+router.post("/", authenticatePetaniJWT, async (req, res) => {
   const product = new Product({
     name: req.body.name,
     description: req.body.description,
@@ -13,7 +13,7 @@ router.post("/", authenticateJWT, async (req, res) => {
     imageUrl: req.body.imageUrl,
     harvestDate: req.body.harvestDate,
     expirationDate: req.body.expirationDate,
-    petaniId: req.body.petaniId,
+    petaniId: await Petani.findById(req.body.petaniId),
     petaniName: req.body.petaniName,
   });
   try {
@@ -31,7 +31,7 @@ router.post("/", authenticateJWT, async (req, res) => {
 });
 
 //GET Product By ID
-router.get("/:id", authenticateJWT, async (req, res) => {
+router.get("/:id", authenticatePetaniJWT, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     res.status(200).send({
@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
 });
 
 //UPDATE Product by ID
-router.put("/:id", authenticateJWT, async (req, res) => {
+router.put("/:id", authenticatePetaniJWT, async (req, res) => {
   try {
     const product = await Product.updateOne(
       { _id: req.params.id },
@@ -93,7 +93,7 @@ router.put("/:id", authenticateJWT, async (req, res) => {
 });
 
 //DELETE Product by ID
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:id", authenticatePetaniJWT, async (req, res) => {
   if (req.params.id == null) {
     res.status(400).send("ID is required");
   }

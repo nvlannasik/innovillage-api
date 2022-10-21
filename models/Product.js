@@ -33,11 +33,11 @@ const ProductSchema = mongoose.Schema(
       required: true,
     },
     harvestDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     expirationDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     petaniId: {

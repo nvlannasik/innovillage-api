@@ -25,6 +25,7 @@ app.use("/api/order", orderRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/refresh-token", require("./routes/refreshToken"));
+app.use("/api/cart", require("./routes/cart"));
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);
