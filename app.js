@@ -9,6 +9,7 @@ const orderRouter = require("./routes/order");
 const adminRouter = require("./routes/admin");
 const dashboardRouter = require("./routes/dashboard");
 const refreshTokenRouter = require("./routes/refreshToken");
+const cartRouter = require("./routes/cart");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -27,6 +28,8 @@ app.use("/api/order", orderRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/refresh-token", refreshTokenRouter);
+app.use("/api/cart", cartRouter);
+
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);
