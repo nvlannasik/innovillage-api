@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Transaksi = require("../models/Transaksi");
+const User = require("../models/User");
 const authenticateJWT = require("../component/verifyToken");
 
 //POST Transaksi
@@ -16,6 +17,15 @@ router.post("/", authenticateJWT, async (req, res) => {
     deliveryStatus: req.body.deliveryStatus,
     paymentMethod: req.body.paymentMethod,
   });
+
+  //check if userName not found
+  const checkUser = await User.findOne({ userName: req.body.userName });
+  if (checkUser == null) {
+    return res.status(404).send({
+      status: "failed",
+      message: "User not found",
+    });
+  }
   try {
     const transaksiSaved = await transaksi.save();
     res.status(201).send({
@@ -47,7 +57,6 @@ router.get("/:id", authenticateJWT, async (req, res) => {
 });
 
 //GET All Transaksi specific user
-
 router.get("/user/:id", authenticateJWT, async (req, res) => {
   try {
     const transaksi = await Transaksi.find({ userId: req.params.id });
