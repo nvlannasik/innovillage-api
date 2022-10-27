@@ -10,6 +10,8 @@ router.post("/", async (req, res) => {
     productId: req.body.productId,
     quantity: req.body.quantity,
     product: await Product.findById(req.body.productId),
+    //totalPrice
+    totalPrice: await Product.findById(req.body.productId).price * req.body.quantity,
   });
   try {
     const orderSaved = await order.save();
