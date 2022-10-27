@@ -1,49 +1,74 @@
 const router = require("express").Router();
 const midtransClient = require("midtrans-client");
-const Transaksi = require("../models/Transaksi");
 const Order = require("../models/Order");
 const Midtrans = require("../models/Midtrans");
 const User = require("../models/User");
 
 
-
-//Create Midtrans Transaction
-router.post("/midtrans", async (req, res) => {
-    const midtrans = new Midtrans({
-        customer_details : await User.findById(req.body.custumer_details),
-        item_buy_details : await Order.findById(req.body.item_details),
-        transaction_details : await Transaksi.findById(req.body.transaction_details),
-        
-    });
+// Create Snap API Midtrans
+router.post("/snap", async (req, res) => {
+    // Connect MidTrans
     let snap = new midtransClient.Snap({
-        isProduction : false,
+        isProduction: false,
         serverKey : 'SB-Mid-server-g7hCHIRuPDTLpD9boALkiaxf'
     });
 
-
-    try {
-        const midtransSaved = await midtrans.save();
-        let parameter = midtransSaved
-
-        snap.createTransaction(parameter)
-        .then((transaction)=>{
-            // transaction token
-            let transactionToken = transaction.token;
-
-            // // transaction redirect url
-            // let transactionRedirectUrl = transaction.redirect_url;
-        })
-        res.status(201).send({
-            status: "success",
-            message: "Midtrans created successfully",
-            token : transactionToken,
+    // Midtrans Fetch Data
+    const midtrans = new Midtrans({
+        customer_details: await User.findById({ _id: req.body.customer_details }),
+        item_buy_details: await Order.findById({ _id: req.body.item_buy_details }),
         });
+    const MidtransSaved = await midtrans.save();
 
-    } catch (err) {
-        res.status(400).send(err);
+    //Fetch Data
+    const gross_amount = MidtransSaved.item_buy_details.map((item) => item.totalPrice)[0]
+    const customer_name = MidtransSaved.customer_details.map((item) => item.name)[0]
+    const customer_email = MidtransSaved.customer_details.map((item) => item.email)[0]
+    const customer_phone = MidtransSaved.customer_details.map((item) => item.phoneNumber)[0]
+    const item_id = MidtransSaved.item_buy_details.map((item) => item._id)[0]
+    const item_price = MidtransSaved.item_buy_details.map((item) => item.totalPrice)[0]
+    const item_quantity = MidtransSaved.item_buy_details.map((item) => item.quantity)[0]
+    var item_name = MidtransSaved.item_buy_details.map((item) => item.product.map((item) => item.name))[0][0]
+   
+    // Create Parameter for Midtrans
+    let parameter = {
+        "transaction_details": {
+            "order_id": MidtransSaved._id,
+            "gross_amount": gross_amount,
+        },
+        "customer_details": {
+            "name": customer_name,
+            "email": customer_email,
+            "phone": customer_phone,
+        },
+        "item_details": {
+            "id": item_id,
+            "price": item_price,
+            "quantity": item_quantity,
+            "name": item_name,
+        },
+    };
+    snap.createTransaction(parameter)
+    .then((transaction) => {
+        // transaction token
+        let transactionToken = transaction.token;
+        res.status(200).send({
+            status: "success",
+            message: "Order created successfully",
+            data: {
+                token: transactionToken,
+            },
+        });
     }
+    );
+
+});
+
+//Test Midtrans View
+router.get("/view", async (req, res) => {
+    res.render('show');
 });
 
 
-
 module.exports = router;
+

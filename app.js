@@ -11,6 +11,7 @@ const dashboardRouter = require("./routes/dashboard");
 const transaksiRouter = require("./routes/transaksi");
 const refreshTokenRouter = require("./routes/refreshToken");
 const cartRouter = require("./routes/cart");
+const midtrans = require("./routes/midtrans");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -31,6 +32,10 @@ app.use("/api/dashboard", dashboardRouter);
 app.use("/api/transaksi", transaksiRouter);
 app.use("/api/refresh-token", refreshTokenRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/midtrans", midtrans);
+
+//Test Show Midtrans Frontend 
+app.set("view engine", "ejs");
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);

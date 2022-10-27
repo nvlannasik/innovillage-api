@@ -1,4 +1,3 @@
-const { array } = require("joi");
 const mongoose = require("mongoose");
 autoIncrement = require("mongoose-auto-increment");
 require("dotenv");
@@ -7,16 +6,11 @@ autoIncrement.initialize(connection);
 
 const MidtransSchema = mongoose.Schema({
     customer_details: {
-        type : array,
-        required: true,
+        type : Array,
     },
+    
     item_buy_details: {
-        type: array,
-        required: true,
-    },
-    transaction_details: {
-        type: array,
-        required: true,
+        type: Array,
     },
     timestamps: {
         type: Date,
