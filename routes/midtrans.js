@@ -3,6 +3,8 @@ const midtransClient = require("midtrans-client");
 const Order = require("../models/Order");
 const Midtrans = require("../models/Midtrans");
 const User = require("../models/User");
+const Callback = require("../models/Callback");
+const axios = require("axios");
 
 
 // Create Snap API Midtrans
@@ -88,6 +90,51 @@ router.post("/snap", async (req, res) => {
 router.get("/view", async (req, res) => {
     res.render('show');
 });
+
+//Midtrans API CALLBACK
+router.post("/callback", async (req, res) => {
+    const CallbackData = await axios.get(`https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic U0ItTWlkLXNlcnZlci1nN2hDSElSdVBEVExwRDlib0FMa2lheGY6'
+        }
+    })
+    const callback = new Callback({
+        order_id: CallbackData.data.order_id,
+        gross_amount: CallbackData.data.gross_amount,
+        payment_type: CallbackData.data.payment_type,
+        transaction_time: CallbackData.data.transaction_time,
+        transaction_status: CallbackData.data.transaction_status,
+        status_code: CallbackData.data.status_code,
+        status_message: CallbackData.data.status_message,
+        bankva_number: CallbackData.data.va_numbers[0].va_number,
+        bankva_biller: CallbackData.data.va_numbers[0].bank,
+    });
+    const CallbackSaved = await callback.save();
+    res.status(200).send({
+        status: "success",
+        message: "Callback created successfully",
+        data: CallbackSaved
+    });
+});
+
+//Get All data callback
+router.get("/callback", async (req, res) => {
+    try {
+        const callback = await Callback.find();
+        res.status(200).send({
+            status: "success",
+            message: "Call created successfully",
+            data: {
+                callback: callback,
+            },
+        });
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
 
 
 module.exports = router;
