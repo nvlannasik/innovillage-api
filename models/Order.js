@@ -22,7 +22,9 @@ const OrderSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-
+  address : {
+    type: String,
+  },
   timestamps: {
     type: Date,
     default: Date.now,

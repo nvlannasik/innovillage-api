@@ -26,9 +26,10 @@ router.post("/snap", async (req, res) => {
     const customer_email = MidtransSaved.customer_details.map((item) => item.email)[0]
     const customer_phone = MidtransSaved.customer_details.map((item) => item.phoneNumber)[0]
     const item_id = MidtransSaved.item_buy_details.map((item) => item._id)[0]
-    const item_price = MidtransSaved.item_buy_details.map((item) => item.totalPrice)[0]
+    const item_price = MidtransSaved.item_buy_details.map((item) => item.product.map((item) => item.price))[0][0]
     const item_quantity = MidtransSaved.item_buy_details.map((item) => item.quantity)[0]
-    var item_name = MidtransSaved.item_buy_details.map((item) => item.product.map((item) => item.name))[0][0]
+    const item_name = MidtransSaved.item_buy_details.map((item) => item.product.map((item) => item.name))[0][0]
+    const item_address = MidtransSaved.item_buy_details.map((item) => item.address)[0]
    
     // Create Parameter for Midtrans
     let parameter = {
@@ -36,17 +37,36 @@ router.post("/snap", async (req, res) => {
             "order_id": MidtransSaved._id,
             "gross_amount": gross_amount,
         },
-        "customer_details": {
-            "name": customer_name,
-            "email": customer_email,
-            "phone": customer_phone,
-        },
         "item_details": {
             "id": item_id,
             "price": item_price,
             "quantity": item_quantity,
             "name": item_name,
         },
+        "customer_details": {
+            "first_name": customer_name,
+            "email": customer_email,
+            "phone": customer_phone,
+            "billing_address": {
+                "first_name": customer_name,
+                "email": customer_email,
+                "phone": customer_phone,
+                "address": item_address,
+                "city": "Jakarta",
+                "postal_code": "16602",
+                "country_code": "IDN"
+            }
+        },
+        "shipping_address": {
+            "first_name": customer_name,
+            "email": customer_email,
+            "phone": customer_phone,
+            "address": item_address,
+            "city": "Jakarta",
+            "postal_code": "16602",
+            "country_code": "IDN"
+        },
+        
     };
     snap.createTransaction(parameter)
     .then((transaction) => {

@@ -12,6 +12,7 @@ router.post("/", async (req, res) => {
     product: await Product.findById(req.body.productId),
     //totalPrice
     totalPrice: req.body.totalPrice,
+    address: req.body.address,
   });
   try {
     const orderSaved = await order.save();
