@@ -1,13 +1,14 @@
 const router = require("express").Router();
-const Order = require("../models/Order");
+const Checkout = require("../models/Checkout");
 const Product = require("../models/Product");
 const { authenticateJWT } = require("../component/verifyToken");
-const { orderValidation } = require("../component/validation");
+const { checkoutValidation } = require("../component/validation");
 
-//Create order
+//Create checkout
 router.post("/", async (req, res) => {
-  const order = new Order({
+  const checkout = new Checkout({
     productId: req.body.productId,
+    user_id: req.body.user_id,
     quantity: req.body.quantity,
     product: await Product.findById(req.body.productId),
     //totalPrice
@@ -15,12 +16,12 @@ router.post("/", async (req, res) => {
     address: req.body.address,
   });
   try {
-    const orderSaved = await order.save();
+    const checkoutSaved = await checkout.save();
     res.status(201).send({
       status: "success",
-      message: "Order created successfully",
+      message: "Checkout created successfully",
       data: {
-        order: orderSaved,
+        checkout: checkoutSaved,
       },
     });
   } catch (err) {
@@ -28,15 +29,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-//GET Order By ID
+//GET Checkout By ID
 router.get("/:id", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const checkout = await Checkout.findById(req.params.id);
     res.status(200).send({
       status: "success",
-      message: "Order retrieved successfully",
+      message: "Checkout retrieved successfully",
       data: {
-        order: order,
+        checkout: checkout,
       },
     });
   } catch (err) {
@@ -44,15 +45,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//GET All Order
+//GET All Checkout
 router.get("/", async (req, res) => {
   try {
-    const orders = await Order.find();
+    const checkouts = await Checkout.find();
     res.status(200).send({
       status: "success",
-      message: "Order retrieved successfully",
+      message: "Checkout retrieved successfully",
       data: {
-        orders: orders,
+        checkouts: checkouts,
       },
     });
   } catch (err) {
@@ -60,19 +61,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-//Update Order
+//Update Checkout
 router.put("/:id", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
-    order.productId = req.body.productId;
-    order.quantity = req.body.quantity;
-    order.product = await Product.findById(req.body.productId);
-    const orderSaved = await order.save();
+    const checkout = await Checkout.findById(req.params.id);
+    checkout.productId = req.body.productId;
+    checkout.quantity = req.body.quantity;
+    checkout.product = await Product.findById(req.body.productId);
+    const checkoutSaved = await checkout.save();
     res.status(203).send({
       status: "success",
-      message: "Order updated successfully",
+      message: "Checkout updated successfully",
       data: {
-        order: orderSaved,
+        checkout: checkoutSaved,
       },
     });
   } catch (err) {
@@ -80,14 +81,14 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-//Delete Order
+//Delete Checkout
 router.delete("/:id", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
-    const orderDeleted = await order.remove();
+    const checkout = await Checkout.findById(req.params.id);
+    const checkoutDeleted = await checkout.remove();
     res.status(202).send({
       status: "success",
-      message: "Order deleted successfully",
+      message: "Checkout deleted successfully",
     });
   } catch (err) {
     res.status(400).send(err);

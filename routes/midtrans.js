@@ -1,24 +1,25 @@
 const router = require("express").Router();
 const midtransClient = require("midtrans-client");
-const Order = require("../models/Order");
+const Checkout = require("../models/Checkout");
 const Midtrans = require("../models/Midtrans");
 const User = require("../models/User");
 const Callback = require("../models/Callback");
 const axios = require("axios");
+require("dotenv").config();
 
 
 // Create Snap API Midtrans
-router.post("/snap", async (req, res) => {
+router.post("/refresh-token", async (req, res) => {
     // Connect MidTrans
     let snap = new midtransClient.Snap({
         isProduction: false,
-        serverKey : 'SB-Mid-server-g7hCHIRuPDTLpD9boALkiaxf'
+        serverKey : process.env.MIDTRANS_SERVER_KEY
     });
 
     // Midtrans Fetch Data
     const midtrans = new Midtrans({
         customer_details: await User.findById({ _id: req.body.customer_details }),
-        item_buy_details: await Order.findById({ _id: req.body.item_buy_details }),
+        item_buy_details: await Checkout.findById({ _id: req.body.item_buy_details }),
         });
     const MidtransSaved = await midtrans.save();
 
@@ -47,10 +48,12 @@ router.post("/snap", async (req, res) => {
         },
         "customer_details": {
             "first_name": customer_name,
+            "last_name": ".",
             "email": customer_email,
             "phone": customer_phone,
             "billing_address": {
                 "first_name": customer_name,
+                "last_name": ".",
                 "email": customer_email,
                 "phone": customer_phone,
                 "address": item_address,
@@ -61,6 +64,7 @@ router.post("/snap", async (req, res) => {
         },
         "shipping_address": {
             "first_name": customer_name,
+            "last_name": ".",
             "email": customer_email,
             "phone": customer_phone,
             "address": item_address,
@@ -97,7 +101,7 @@ router.post("/callback", async (req, res) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Basic U0ItTWlkLXNlcnZlci1nN2hDSElSdVBEVExwRDlib0FMa2lheGY6'
+            'Authorization': process.env.AuthBase64
         }
     })
     const callback = new Callback({
