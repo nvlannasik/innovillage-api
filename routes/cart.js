@@ -8,11 +8,9 @@ const authenticateJWT = require("../component/verifyToken");
 router.post("/", authenticateJWT, async (req, res) => {
   let arrayProduct = [req.body.productId];
   const cart = new Cart({
-    productId: arrayProduct,
-    quantity: req.body.quantity,
-    product: await Product.find({ _id: req.body.productId }),
     userId: req.body.userId,
-    totalPrice: req.body.totalPrice,
+    productId: arrayProduct,
+    product: await Product.find({ _id: req.body.productId }),
   });
 
   const checkStock = await Product.findById(req.body.productId);
@@ -60,28 +58,15 @@ router.post("/", authenticateJWT, async (req, res) => {
   }
 });
 
-//GET Cart By ID
-
-router.get("/:id", authenticateJWT, async (req, res) => {
-  try {
-    const cart = await Cart.findById(req.params.id);
-    res.status(200).send({
-      status: "success",
-      message: "Cart retrieved successfully",
-      data: {
-        cart: cart,
-      },
+router.get("/:userId", authenticateJWT, async (req, res) => {
+  if (req.params.userId == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "User ID is required",
     });
-  } catch (err) {
-    res.status(400).send(err);
   }
-});
-
-//GET All Cart
-
-router.get("/", authenticateJWT, async (req, res) => {
   try {
-    const carts = await Cart.find();
+    const carts = await Cart.find({ userId: req.params.userId });
     res.status(200).send({
       status: "success",
       message: "Cart retrieved successfully",
@@ -96,9 +81,9 @@ router.get("/", authenticateJWT, async (req, res) => {
 
 //Update Cart
 
-router.patch("/:id", authenticateJWT, async (req, res) => {
+router.patch("/:userId", authenticateJWT, async (req, res) => {
   //check if id not found
-  const checkCart = await Cart.findById(req.params.id);
+  const checkCart = await Cart.findOne({ userId: req.params.userId });
   if (checkCart == null) {
     return res.status(400).send({
       status: "failed",
@@ -107,13 +92,19 @@ router.patch("/:id", authenticateJWT, async (req, res) => {
   }
 
   try {
-    const cart = await Cart.updateOne(
-      { _id: req.params.id },
-      { $set: { quantity: req.body.quantity } }
+    const cart = await Cart.updateMany(
+      { userId: req.params.userId },
+      {
+        $set: { quantity: req.body.quantity },
+        $unset: { productId: req.body.productId },
+      }
     );
     res.status(203).send({
       status: "success",
       message: "Cart updated successfully",
+      data: {
+        cart: cart,
+      },
     });
   } catch (err) {
     res.status(400).send(err);
@@ -122,19 +113,19 @@ router.patch("/:id", authenticateJWT, async (req, res) => {
 
 //Delete Cart
 
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:userId/", authenticateJWT, async (req, res) => {
   //check if id not found
-  const checkCart = await Cart.findById(req.params.id);
+  const checkCart = await Cart.find({ userId: req.params.userId });
   if (checkCart == null) {
     return res.status(400).send({
       status: "failed",
       message: "Cart not found",
     });
   }
-
+  //delete productid in cart
   try {
-    const cart = await Cart.deleteOne({ _id: req.params.id });
-    res.status(202).send({
+    const cart = await Cart.deleteOne({ userId: req.params.userId });
+    res.status(200).send({
       status: "success",
       message: "Cart deleted successfully",
     });

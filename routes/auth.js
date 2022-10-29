@@ -81,9 +81,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { error } = loginValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
   //Checking if user already exists
   const user = await User.findOne({ userName: req.body.userName });
   if (!user) return res.status(400).send("Username atau password salah");

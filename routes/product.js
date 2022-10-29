@@ -32,7 +32,7 @@ router.post("/", authenticatePetaniJWT, async (req, res) => {
 });
 
 //GET Product By ID
-router.get("/:id", authenticatePetaniJWT, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     res.status(200).send({
