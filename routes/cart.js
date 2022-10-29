@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Product = require("../models/Product");
 const Cart = require("../models/Cart");
 const authenticateJWT = require("../component/verifyToken");
+const { $ } = require("@hapi/joi/lib/base");
 
 //Create cart
 
@@ -79,55 +80,40 @@ router.get("/:userId", authenticateJWT, async (req, res) => {
   }
 });
 
+
 //Update Cart
+// PR
 
-router.patch("/:userId", authenticateJWT, async (req, res) => {
+router.put("/:userId", authenticateJWT, async (req, res) => {
   //check if id not found
-  const checkCart = await Cart.findOne({ userId: req.params.userId });
-  if (checkCart == null) {
-    return res.status(400).send({
-      status: "failed",
-      message: "Cart not found",
-    });
-  }
+  const cartUpdate = await Cart.findOne({ userId: req.params.userId });
+  const cartDelProduct = cartUpdate.productId[0]
+  const input = req.body.productId
 
-  try {
-    const cart = await Cart.updateMany(
-      { userId: req.params.userId },
-      {
-        $set: { quantity: req.body.quantity },
-        $unset: { productId: req.body.productId },
-      }
-    );
-    res.status(203).send({
-      status: "success",
-      message: "Cart updated successfully",
-      data: {
-        cart: cart,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
+  await Cart.updateMany(
+    { userId: req.params.userId },
+    //// Remove product sudah bisa tapi remove productID belum bisa
+    { $pull: { productId : [input]}, 
+     $pull: { product : { _id: input } } 
+  });
+
+  const afterupdate = await Cart.findOne({ userId: req.params.userId });
+  // SHOW CART AFTER UPDATE
+  res.send (afterupdate);
+
 });
 
-//Delete Cart
 
-router.delete("/:userId/", authenticateJWT, async (req, res) => {
-  //check if id not found
-  const checkCart = await Cart.find({ userId: req.params.userId });
-  if (checkCart == null) {
-    return res.status(400).send({
-      status: "failed",
-      message: "Cart not found",
-    });
-  }
-  //delete productid in cart
+//Delete Cart by ID
+router.delete("/:id", authenticateJWT, async (req, res) => {
   try {
-    const cart = await Cart.deleteOne({ userId: req.params.userId });
+    const cartDelete = await Cart.deleteOne({ _id: req.params.id });
     res.status(200).send({
       status: "success",
       message: "Cart deleted successfully",
+      data: {
+        cart: cartDelete,
+      },
     });
   } catch (err) {
     res.status(400).send(err);
