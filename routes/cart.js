@@ -8,10 +8,10 @@ const authenticateJWT = require("../component/verifyToken");
 router.post("/", authenticateJWT, async (req, res) => {
   let arrayProduct = [req.body.productId];
   const cart = new Cart({
+    userId: req.body.userId,
     productId: arrayProduct,
     quantity: req.body.quantity,
     product: await Product.find({ _id: req.body.productId }),
-    userId: req.body.userId,
     totalPrice: req.body.totalPrice,
   });
 
@@ -80,6 +80,12 @@ router.post("/", authenticateJWT, async (req, res) => {
 //GET All Cart
 
 router.get("/:userId", authenticateJWT, async (req, res) => {
+  if (req.params.userId == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "User ID is required",
+    });
+  }
   try {
     const carts = await Cart.find({ userId: req.params.userId });
     res.status(200).send({
@@ -96,9 +102,9 @@ router.get("/:userId", authenticateJWT, async (req, res) => {
 
 //Update Cart
 
-router.patch("/:id", authenticateJWT, async (req, res) => {
+router.patch("/:userId", authenticateJWT, async (req, res) => {
   //check if id not found
-  const checkCart = await Cart.findById(req.params.id);
+  const checkCart = await Cart.findOne({ userId: req.params.userId });
   if (checkCart == null) {
     return res.status(400).send({
       status: "failed",
@@ -108,7 +114,7 @@ router.patch("/:id", authenticateJWT, async (req, res) => {
 
   try {
     const cart = await Cart.updateOne(
-      { _id: req.params.id },
+      { userId: req.params.userId },
       { $set: { quantity: req.body.quantity } }
     );
     res.status(203).send({
@@ -122,9 +128,9 @@ router.patch("/:id", authenticateJWT, async (req, res) => {
 
 //Delete Cart
 
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:userId", authenticateJWT, async (req, res) => {
   //check if id not found
-  const checkCart = await Cart.findById(req.params.id);
+  const checkCart = await Cart.find({ userId: req.params.userId });
   if (checkCart == null) {
     return res.status(400).send({
       status: "failed",
@@ -133,7 +139,7 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
   }
 
   try {
-    const cart = await Cart.deleteOne({ _id: req.params.id });
+    const cart = await Cart.deleteOne({ userId: req.params.userId });
     res.status(202).send({
       status: "success",
       message: "Cart deleted successfully",
