@@ -22,6 +22,9 @@ const UserScema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    billing_address: {
+      type: String,
+    },
     dateRegist: {
       type: Date,
       default: Date.now,

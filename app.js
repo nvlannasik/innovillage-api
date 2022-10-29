@@ -5,12 +5,13 @@ const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth");
 const petaniRouter = require("./routes/petani");
 const productRouter = require("./routes/product");
-const orderRouter = require("./routes/order");
+const checkoutRouter = require("./routes/checkout");
 const adminRouter = require("./routes/admin");
 const dashboardRouter = require("./routes/dashboard");
 const transaksiRouter = require("./routes/transaksi");
 const refreshTokenRouter = require("./routes/refreshToken");
 const cartRouter = require("./routes/cart");
+const midtrans = require("./routes/midtrans");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -25,12 +26,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/user", authRouter);
 app.use("/api/petani", petaniRouter);
 app.use("/api/product", productRouter);
-app.use("/api/order", orderRouter);
+app.use("/api/checkout", checkoutRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/transaksi", transaksiRouter);
 app.use("/api/refresh-token", refreshTokenRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/midtrans", midtrans);
+
+//Test Show Midtrans Frontend 
+app.set("view engine", "ejs");
 
 //connect db
 mongoose.connect(process.env.DB_CONNECTION);
