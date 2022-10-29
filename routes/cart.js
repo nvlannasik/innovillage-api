@@ -60,28 +60,28 @@ router.post("/", authenticateJWT, async (req, res) => {
   }
 });
 
-//GET Cart By ID
+// //GET Cart By ID
 
-router.get("/:id", authenticateJWT, async (req, res) => {
-  try {
-    const cart = await Cart.findById(req.params.id);
-    res.status(200).send({
-      status: "success",
-      message: "Cart retrieved successfully",
-      data: {
-        cart: cart,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
+// router.get("/:id", authenticateJWT, async (req, res) => {
+//   try {
+//     const cart = await Cart.findById(req.params.id);
+//     res.status(200).send({
+//       status: "success",
+//       message: "Cart retrieved successfully",
+//       data: {
+//         cart: cart,
+//       },
+//     });
+//   } catch (err) {
+//     res.status(400).send(err);
+//   }
+// });
 
 //GET All Cart
 
-router.get("/", authenticateJWT, async (req, res) => {
+router.get("/:userId", authenticateJWT, async (req, res) => {
   try {
-    const carts = await Cart.find();
+    const carts = await Cart.find({ userId: req.params.userId });
     res.status(200).send({
       status: "success",
       message: "Cart retrieved successfully",
