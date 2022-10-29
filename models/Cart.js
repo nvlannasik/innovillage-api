@@ -22,7 +22,7 @@ const CartSchema = mongoose.Schema(
       required: true,
     },
     userId: {
-      type: Number,
+      type: String,
       required: true,
     },
     timestamps: {
