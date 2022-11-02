@@ -2,16 +2,19 @@ const router = require("express").Router();
 const Product = require("../models/Product");
 const Petani = require("../models/Petani");
 const authenticatePetaniJWT = require("../component/verifyTokenPetani");
+const uploadImage = require("../utils/upload");
 
 //Create product
 
 router.post("/", authenticatePetaniJWT, async (req, res) => {
+  const myFile = req.file;
+  const imageUrl = await uploadImage(myFile);
   const product = new Product({
     name: req.body.name,
     description: req.body.description,
     price: req.body.price,
     stock: req.body.stock,
-    imageUrl: req.body.imageUrl,
+    imageUrl: imageUrl,
     harvestDate: req.body.harvestDate,
     expirationDate: req.body.expirationDate,
     petaniId: await Petani.findById({ _id: req.body.petaniId }),

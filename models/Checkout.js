@@ -4,35 +4,38 @@ require("dotenv");
 let connection = mongoose.createConnection(process.env.DB_CONNECTION);
 autoIncrement.initialize(connection);
 
-const CheckoutSchema = mongoose.Schema({
-  productId: {
-    type: Number,
-    required: true,
-    min: 0,
+const CheckoutSchema = mongoose.Schema(
+  {
+    productId: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    product: {
+      type: Array,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    address: {
+      type: String,
+    },
+    userId: {
+      type: String,
+    },
+    timestamps: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  product: {
-    type: Array,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-  },
-  address : {
-    type: String,
-  },
-  user_id: {
-    type : String,
-  },
-  timestamps: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { versionKey: false }
+);
 
 CheckoutSchema.plugin(autoIncrement.plugin, "Checkout");
 module.exports = mongoose.model("Checkout", CheckoutSchema);

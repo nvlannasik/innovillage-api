@@ -14,6 +14,8 @@ const cartRouter = require("./routes/cart");
 const midtrans = require("./routes/midtrans");
 const cors = require("cors");
 require("dotenv").config();
+const multer = require('multer')
+
 
 //cors policy
 app.use(cors());
@@ -21,6 +23,13 @@ app.use(cors());
 //Midleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+})
+app.use(multerMid.single('imageUrl'))
 
 //router Midleware
 app.use("/api/user", authRouter);
@@ -34,7 +43,7 @@ app.use("/api/refresh-token", refreshTokenRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/midtrans", midtrans);
 
-//Test Show Midtrans Frontend 
+//Test Show Midtrans Frontend
 app.set("view engine", "ejs");
 
 //connect db

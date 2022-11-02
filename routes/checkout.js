@@ -1,14 +1,13 @@
 const router = require("express").Router();
 const Checkout = require("../models/Checkout");
 const Product = require("../models/Product");
-const { authenticateJWT } = require("../component/verifyToken");
-const { checkoutValidation } = require("../component/validation");
+const authenticateJWT = require("../component/verifyToken");
 
 //Create checkout
-router.post("/", async (req, res) => {
+router.post("/", authenticateJWT, async (req, res) => {
   const checkout = new Checkout({
     productId: req.body.productId,
-    user_id: req.body.user_id,
+    userId: req.body.userId,
     quantity: req.body.quantity,
     product: await Product.findById(req.body.productId),
     //totalPrice
@@ -30,7 +29,7 @@ router.post("/", async (req, res) => {
 });
 
 //GET Checkout By ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateJWT, async (req, res) => {
   try {
     const checkout = await Checkout.findById(req.params.id);
     res.status(200).send({
@@ -62,7 +61,7 @@ router.get("/", async (req, res) => {
 });
 
 //Update Checkout
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticateJWT, async (req, res) => {
   try {
     const checkout = await Checkout.findById(req.params.id);
     checkout.productId = req.body.productId;
@@ -82,7 +81,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //Delete Checkout
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateJWT, async (req, res) => {
   try {
     const checkout = await Checkout.findById(req.params.id);
     const checkoutDeleted = await checkout.remove();
