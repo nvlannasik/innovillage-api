@@ -80,6 +80,81 @@ router.get("/:userId", authenticateJWT, async (req, res) => {
   }
 });
 
+//update cart add product
+router.put("/:userId/add", authenticateJWT, async (req, res) => {
+  if (req.params.userId == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "User ID is required",
+    });
+  }
+
+  const checkproduct = await Product.findById(req.body.productId);
+
+  if (checkproduct == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Product not found",
+    });
+  }
+
+  const checkUserID = await Cart.findOne({ userId: req.params.userId });
+  if (checkUserID == null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "User ID not found",
+    });
+  }
+
+  const checkProduct = await Cart.findOne({
+    userId: req.params.userId,
+    productId: req.body.productId,
+  });
+
+  if (checkProduct != null) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Product already in cart",
+    });
+  }
+
+  // Check if Product Exist
+  const checkCartProductId = await Cart.findOne({
+    product : { $elemMatch: { _id: req.body.productId } },
+  });
+  if (req.body.productId == checkCartProductId) {
+    return res.status(400).send({
+      status: "failed",
+      message: "Product already in cart",
+
+    });
+  }
+
+  //update cart to add product
+  try {
+    const cart = await Cart.findOneAndUpdate(
+      { userId: req.params.userId },
+      {
+        $push: {
+          productId: req.body.productId,
+          product: await Product.find({ _id: req.body.productId }),
+        },
+      },
+      { new: true }
+    );
+    res.status(200).send({
+      status: "success",
+      message: "Cart updated successfully",
+      data: cart
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
+
+
 
 //Update Cart
 // PR
