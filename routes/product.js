@@ -19,6 +19,8 @@ router.post("/", authenticatePetaniJWT, async (req, res) => {
     expirationDate: req.body.expirationDate,
     petaniId: await Petani.findById({ _id: req.body.petaniId }),
     petaniName: req.body.petaniName,
+    alamatPetani: req.body.alamatPetani,
+    satuanJenis: req.body.satuanJenis,
   });
   try {
     const productSaved = await product.save();

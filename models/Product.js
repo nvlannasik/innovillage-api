@@ -52,6 +52,14 @@ const ProductSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    alamatPetani: {
+      type: String,
+      required: true,
+    },
+    satuanJenis: {
+      type: String,
+      required: true,
+    }
   },
   { versionKey: false }
 );
