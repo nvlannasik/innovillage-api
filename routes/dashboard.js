@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Product = require("../models/Product");
+const authenticatePetaniJWT = require("../component/verifyTokenPetani");
 
 //COUNTING ALL PRODUCT COLLECTION
-router.get("/product", async (req, res) => {
+router.get("/product" ,async (req, res) => {
   try {
     const count = await Product.find({
       petaniId: req.body.petaniId,
@@ -19,17 +20,18 @@ router.get("/product", async (req, res) => {
   }
 });
 
-//GET ALL PRODUCT COLLECTION
-router.get("/", async (req, res) => {
+//INCOME petani AMBIL DARI MIDTRANS <--- BELUM
+
+router.get("/income" ,async (req, res) => {
   try {
-    const product = await Product.find({
+    const count = await Product.find({
       petaniId: req.body.petaniId,
-    });
+    }).countDocuments({price: {$sum: req.body.price}});
     res.status(200).send({
       status: "success",
       message: "Product retrieved successfully",
       data: {
-        product,
+        productCount: count,
       },
     });
   } catch (err) {
@@ -37,15 +39,18 @@ router.get("/", async (req, res) => {
   }
 });
 
-//GET PRODUCT BY ID
-router.get("/:id", async (req, res) => {
+
+//TRANSAKSI USER BERHASIL AMBIL DARI MIDTRANS <--- BELUM
+router.get("/transaksi/berhasil" ,async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const count = await Product.find({
+      petaniId: req.body.petaniId,
+    }).countDocuments({status: "success"});
     res.status(200).send({
       status: "success",
       message: "Product retrieved successfully",
       data: {
-        product,
+        productCount: count,
       },
     });
   } catch (err) {
@@ -53,22 +58,44 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//Transaction History
-router.get("/transaction", async (req, res) => {
+//TRANSAKSI USER BELUM BAYAR AMBIL DARI MIDTRANS <--- BELUM
+
+router.get("/transaksi/pending" ,async (req, res) => {
   try {
-    const transaction = await Product.find({
+    const count = await Product.find({
       petaniId: req.body.petaniId,
-    });
+    }).countDocuments({status: "pending"});
     res.status(200).send({
       status: "success",
       message: "Product retrieved successfully",
       data: {
-        transaction,
+        productCount: count,
       },
     });
   } catch (err) {
     res.status(400).send(err);
   }
 });
+
+//TRANSAKSI USER BATAL AMBIL DARI MIDTRANS <--- BELUM
+
+router.get("/transaksi/batal" ,async (req, res) => {
+  try {
+    const count = await Product.find({
+      petaniId: req.body.petaniId,
+    }).countDocuments({status: "batal"});
+    res.status(200).send({
+      status: "success",
+      message: "Product retrieved successfully",
+      data: {
+        productCount: count,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
 
 module.exports = router;

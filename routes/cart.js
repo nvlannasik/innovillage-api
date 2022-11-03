@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Product = require("../models/Product");
 const Cart = require("../models/Cart");
 const authenticateJWT = require("../component/verifyToken");
-const { $ } = require("@hapi/joi/lib/base");
 
 //Create cart
 
