@@ -12,7 +12,8 @@ router.post("/", authenticateJWT, async (req, res) => {
     product: await Product.findById(req.body.productId),
     //totalPrice
     totalPrice: req.body.totalPrice,
-    address: req.body.address,
+    userAddress: req.body.userAddress,
+    jasaPengiriman: req.body.jasaPengiriman,
   });
   try {
     const checkoutSaved = await checkout.save();

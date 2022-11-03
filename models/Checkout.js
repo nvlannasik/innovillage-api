@@ -23,11 +23,17 @@ const CheckoutSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    address: {
+    userAddress: {
       type: String,
+      required: true,
     },
     userId: {
       type: String,
+      required: true,
+    },
+    jasaPengiriman: {
+      type: String,
+      required: true,
     },
     timestamps: {
       type: Date,
