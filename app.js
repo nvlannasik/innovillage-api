@@ -18,7 +18,12 @@ const multer = require('multer')
 
 
 //cors policy
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
 
 //Midleware
 app.use(bodyParser.json());
