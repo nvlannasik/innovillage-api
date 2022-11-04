@@ -10,7 +10,7 @@ router.post("/", authenticateJWT, async (req, res) => {
     productId: req.body.productId,
     userId: req.body.userId,
     quantity: req.body.quantity,
-    product: await Product.findById(req.body.productId),
+    product: await Product.find({ _id: req.body.productId }),
     //totalPrice
     totalPrice: req.body.totalPrice,
     userAddress: req.body.userAddress,
