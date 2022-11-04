@@ -26,6 +26,14 @@ router.get("/pesanan/:id", authenticatePetaniJWT ,async (req, res) => {
 //Update Status Checkout By Petani ---<<< BUTUH AUthentication Petani
 router.put("/pesanan/:checkoutID/:id", authenticatePetaniJWT,async (req, res) => {
   try {
+    //IF param checkout id not found
+    const checkParamsCheckout = await Checkout.findById(req.params.checkoutID);
+    if (!checkParamsCheckout) {
+      return res.status(404).send({
+        status: "error",
+        message: "Checkout not found",
+      });
+    }
     const checkout = await Checkout.findOneAndUpdate(
       { _id : req.params.checkoutID, petaniId : req.params.id },
       {
