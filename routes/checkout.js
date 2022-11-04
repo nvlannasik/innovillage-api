@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Checkout = require("../models/Checkout");
 const Product = require("../models/Product");
 const authenticateJWT = require("../component/verifyToken");
+const Cart = require("../models/Cart");
 
 //Create checkout
 router.post("/", authenticateJWT, async (req, res) => {
@@ -18,6 +19,8 @@ router.post("/", authenticateJWT, async (req, res) => {
   });
   try {
     const checkoutSaved = await checkout.save();
+    //delete all cart by user id
+    await Cart.deleteMany({ userId: req.body.userId });
     res.status(201).send({
       status: "success",
       message: "Checkout created successfully",
