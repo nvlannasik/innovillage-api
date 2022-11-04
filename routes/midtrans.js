@@ -97,31 +97,70 @@ router.get("/view", async (req, res) => {
 
 //Midtrans API CALLBACK
 router.post("/callback", async (req, res) => {
-    const CallbackData = await axios.get(`https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`, {
+    const data = await axios.get(`https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': process.env.AuthBase64
+            'Authorization': 'Basic U0ItTWlkLXNlcnZlci1nN2hDSElSdVBEVExwRDlib0FMa2lheGY6'
         }
     })
+
     const callback = new Callback({
-        order_id: CallbackData.data.order_id,
-        gross_amount: CallbackData.data.gross_amount,
-        payment_type: CallbackData.data.payment_type,
-        transaction_time: CallbackData.data.transaction_time,
-        transaction_status: CallbackData.data.transaction_status,
-        status_code: CallbackData.data.status_code,
-        status_message: CallbackData.data.status_message,
-        bankva_number: CallbackData.data.va_numbers[0].va_number,
-        bankva_biller: CallbackData.data.va_numbers[0].bank,
+        payment_type : data.data.payment_type,
     });
-    const CallbackSaved = await callback.save();
-    res.status(200).send({
-        status: "success",
-        message: "Callback created successfully",
-        data: CallbackSaved
-    });
+    await callback.save();
+    try {
+        if (callback.payment_type === "bank_transfer") {
+            const trycallback = new Callback({
+                order_id : data.data.order_id,
+                transaction_status : data.data.transaction_status,
+                payment_type : data.data.payment_type,
+                transaction_time : data.data.transaction_time,
+                transaction_id : data.data.transaction_id,
+                status_code : data.data.status_code,
+                status_message : data.data.status_message,
+                gross_amount : data.data.gross_amount,
+                payment_type : data.data.payment_type,
+                bankva_biller : data.data.va_numbers[0].bank,
+                bankva_number : data.data.va_numbers[0].va_number,
+            });
+            const callbackSaved = await trycallback.save();
+            res.status(200).send({
+                status: "success",
+                message: "Callback created successfully",
+                data: callbackSaved,
+            });
+        } else if (callback.payment_type === "cstore") {
+                const trycallback = new Callback({
+                    order_id : data.data.order_id,
+                    transaction_status : data.data.transaction_status,
+                    payment_type : data.data.payment_type,
+                    transaction_time : data.data.transaction_time,
+                    transaction_id : data.data.transaction_id,
+                    status_code : data.data.status_code,
+                    status_message : data.data.status_message,
+                    gross_amount : data.data.gross_amount,
+                    payment_type : data.data.payment_type,
+                    store : data.data.store,
+                    payment_code : data.data.payment_code,
+                });
+                const callbackSaved = await trycallback.save();
+                res.status(200).send({
+                    status: "success",
+                    message: "Callback created successfully",
+                    data: callbackSaved,
+                });
+        }
+    } catch (error) {
+        res.status(400).send({
+            status: "failed",
+            message: "Callback created failed",
+            data: error,
+        });
+    }
+    
 });
+
 
 //Get All data callback
 router.get("/callback", async (req, res) => {
@@ -137,6 +176,33 @@ router.get("/callback", async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
+});
+
+router.post("/test", async (req, res) => {
+    const data = await axios.get(`https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic U0ItTWlkLXNlcnZlci1nN2hDSElSdVBEVExwRDlib0FMa2lheGY6'
+        }
+    })
+
+    const callback = new Callback({
+        order_id : data.data.order_id,
+        transaction_status : data.data.transaction_status,
+        payment_type : data.data.payment_type,
+        transaction_time : data.data.transaction_time,
+        transaction_id : data.data.transaction_id,
+        status_code : data.data.status_code,
+        status_message : data.data.status_message,
+        gross_amount : data.data.gross_amount,
+    });
+    const CallbackSaved = await callback.save();
+    res.status(200).send({
+        status: "success",
+        message: "Call created successfully",
+        data: CallbackSaved
+    });
 });
 
 

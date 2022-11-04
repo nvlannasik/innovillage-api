@@ -46,6 +46,14 @@ const CallbackSchema = new Schema({
         type: String,
 
     },
+    store: {
+        type: String,
+
+    },
+    payment_code: {
+        type: String,
+
+    },
     timestamps: {
         type: Date,
         default: Date.now,
