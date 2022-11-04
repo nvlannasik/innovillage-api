@@ -106,43 +106,59 @@ router.post("/callback", async (req, res) => {
     })
 
     const callback = new Callback({
-        order_id : data.data.order_id,
-        transaction_status : data.data.transaction_status,
-        payment_type : data.data.payment_type,
-        transaction_time : data.data.transaction_time,
-        transaction_id : data.data.transaction_id,
-        status_code : data.data.status_code,
-        status_message : data.data.status_message,
-        gross_amount : data.data.gross_amount,
         payment_type : data.data.payment_type,
     });
-    // if (callback.payment_type === "bank_transfer") {
-    //     callback.bankva_biller = data.data.va_numbers[0].bank;
-    //     callback.bankva_number = data.data.va_numbers[0].va_number;
-
-    //     const callbackSaved = await callback.save();
-    //     res.status(200).send({
-    //         status: "success",
-    //         message: "Order created successfully",
-    //         data: callbackSaved,
-    //     });
-    // } else if (callback.payment_type === "csstore") {
-    //     callback.store = data.data.store;
-    //     callback.payment_code = data.data.payment_code;
-
-    //     const callbackSaved = await callback.save();
-    //     res.status(200).send({
-    //         status: "success",
-    //         message: "Order created successfully",
-    //         data: callbackSaved,
-    //     });
-    // } 
-    const callbackSaved = await callback.save();
-    res.status(200).send({
-        status: "success",
-        message: "Callback created successfully",
-        data: callbackSaved,
-    });
+    await callback.save();
+    try {
+        if (callback.payment_type === "bank_transfer") {
+            const trycallback = new Callback({
+                order_id : data.data.order_id,
+                transaction_status : data.data.transaction_status,
+                payment_type : data.data.payment_type,
+                transaction_time : data.data.transaction_time,
+                transaction_id : data.data.transaction_id,
+                status_code : data.data.status_code,
+                status_message : data.data.status_message,
+                gross_amount : data.data.gross_amount,
+                payment_type : data.data.payment_type,
+                bankva_biller : data.data.va_numbers[0].bank,
+                bankva_number : data.data.va_numbers[0].va_number,
+            });
+            const callbackSaved = await trycallback.save();
+            res.status(200).send({
+                status: "success",
+                message: "Callback created successfully",
+                data: callbackSaved,
+            });
+        } else if (callback.payment_type === "cstore") {
+                const trycallback = new Callback({
+                    order_id : data.data.order_id,
+                    transaction_status : data.data.transaction_status,
+                    payment_type : data.data.payment_type,
+                    transaction_time : data.data.transaction_time,
+                    transaction_id : data.data.transaction_id,
+                    status_code : data.data.status_code,
+                    status_message : data.data.status_message,
+                    gross_amount : data.data.gross_amount,
+                    payment_type : data.data.payment_type,
+                    store : data.data.store,
+                    payment_code : data.data.payment_code,
+                });
+                const callbackSaved = await trycallback.save();
+                res.status(200).send({
+                    status: "success",
+                    message: "Callback created successfully",
+                    data: callbackSaved,
+                });
+        }
+    } catch (error) {
+        res.status(400).send({
+            status: "failed",
+            message: "Callback created failed",
+            data: error,
+        });
+    }
+    
 });
 
 

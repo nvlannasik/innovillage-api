@@ -35,6 +35,10 @@ const CheckoutSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    status : {
+      type: String,
+      default: "pending",
+    },
     timestamps: {
       type: Date,
       default: Date.now,
