@@ -6,7 +6,9 @@ const Checkout = require("../models/Checkout");
 // Get All Checkout by Petani ID
 router.get("/ini/:id", async (req, res) => {
   try {
-    const getCheckout = await Checkout.findById({ product : {petaniId : req.params.id} });
+    const getCheckout = await Checkout.find({product: {
+      $in: await Product.find({petaniId: req.params.id})
+    }});
     res.status(200).send({
       status: "success",
       message: "Checkout retrieved successfully",
