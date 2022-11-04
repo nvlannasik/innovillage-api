@@ -6,19 +6,11 @@ autoIncrement.initialize(connection);
 
 const TransaksiSchema = mongoose.Schema(
   {
-    orderId: {
-      type: Number,
-      required: true,
-    },
     productId: {
-      type: Number,
+      type: Array,
       required: true,
     },
     userId: {
-      type: Number,
-      required: true,
-    },
-    userName: {
       type: String,
       required: true,
     },
@@ -26,23 +18,15 @@ const TransaksiSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    userPhoneNumber: {
-      type: Number,
-      required: true,
-    },
     totalPrice: {
       type: Number,
       required: true,
     },
-    transactionStatus: {
+    status : {
       type: String,
       required: true,
     },
-    deliveryStatus: {
-      type: String,
-      required: true,
-    },
-    paymentMethod: {
+    jasaPengiriman: {
       type: String,
       required: true,
     },

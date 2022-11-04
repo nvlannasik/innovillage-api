@@ -1,95 +1,46 @@
 const router = require("express").Router();
 const Transaksi = require("../models/Transaksi");
 const User = require("../models/User");
+const Checkout = require("../models/Checkout");
+const Midtrans = require("../models/Midtrans");
+const Callback = require("../models/Callback");
 const authenticateJWT = require("../component/verifyToken");
 
-//POST Transaksi
-router.post("/", authenticateJWT, async (req, res) => {
-  const transaksi = new Transaksi({
-    orderId: req.body.orderId,
-    productId: req.body.productId,
-    userId: req.body.userId,
-    userName: req.body.userName,
-    userAddress: req.body.userAddress,
-    userPhoneNumber: req.body.userPhoneNumber,
-    totalPrice: req.body.totalPrice,
-    transactionStatus: req.body.transactionStatus,
-    deliveryStatus: req.body.deliveryStatus,
-    paymentMethod: req.body.paymentMethod,
-  });
-
-  //check if userName not found
-  const checkUser = await User.findOne({ userName: req.body.userName });
-  if (checkUser == null) {
-    return res.status(404).send({
-      status: "failed",
-      message: "User not found",
-    });
-  }
+// Post Transasksi
+router.post("/:id",async (req, res) => {
   try {
+    const checkout = await Checkout.findById(req.params.id);
+    const statusCheckout = checkout.status;
+    const tryCallback = await Callback.find()
+
+    if (statusCheckout == "pesanan selesai"){
+      const transaksi = new Transaksi({
+        userId: checkout.userId,
+        productId: checkout.productId,
+        quantity: checkout.quantity,
+        product: checkout.product,
+        totalPrice: checkout.totalPrice,
+        userAddress: checkout.userAddress,
+        jasaPengiriman: checkout.jasaPengiriman,
+        status: checkout.status,
+    })
     const transaksiSaved = await transaksi.save();
-    res.status(201).send({
+    res.status(200).send({
       status: "success",
       message: "Transaksi created successfully",
-      data: {
-        transaksi: transaksiSaved,
-      },
+      data: transaksiSaved,
     });
-  } catch (err) {
-    res.status(400).send(err);
+  }
+  }
+  catch (err) {
+    res.status(400).send({
+      status: "failed",
+      message: "Transaksi failed",
+    });
+
   }
 });
 
-//GET Transaksi By ID
-router.get("/:id", authenticateJWT, async (req, res) => {
-  try {
-    const transaksi = await Transaksi.findById(req.params.id);
-    res.status(200).send({
-      status: "success",
-      message: "Transaksi retrieved successfully",
-      data: {
-        transaksi: transaksi,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
+//
 
-//GET All Transaksi specific user
-router.get("/user/:id", authenticateJWT, async (req, res) => {
-  try {
-    const transaksi = await Transaksi.find({ userId: req.params.id });
-    res.status(200).send({
-      status: "success",
-      message: "Transaksi retrieved successfully",
-      data: {
-        transaksi: transaksi,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-//API CALL BACK FROM MIDTRANS
-
-router.post("/callback", async (req, res) => {
-  try {
-    const transaksi = await Transaksi.findOneAndUpdate(
-      { orderId: req.body.orderId },
-      { transactionStatus: req.body.transactionStatus },
-      { new: true }
-    );
-    res.status(200).send({
-      status: "success",
-      message: "Transaksi retrieved successfully",
-      data: {
-        transaksi: transaksi,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
 module.exports = router;

@@ -7,9 +7,8 @@ autoIncrement.initialize(connection);
 const CheckoutSchema = mongoose.Schema(
   {
     productId: {
-      type: Number,
+      type: Array,
       required: true,
-      min: 0,
     },
     product: {
       type: Array,
