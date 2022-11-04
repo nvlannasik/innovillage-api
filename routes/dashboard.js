@@ -4,7 +4,7 @@ const authenticatePetaniJWT = require("../component/verifyTokenPetani");
 const Checkout = require("../models/Checkout");
 
 // Get All Checkout by Petani ID
-router.get("/ini/:id", async (req, res) => {
+router.get("/pesanan/:id", authenticatePetaniJWT ,async (req, res) => {
   try {
     const getCheckout = await Checkout.find({product: {
       $in: await Product.find({petaniId: req.params.id})
@@ -22,7 +22,7 @@ router.get("/ini/:id", async (req, res) => {
   }
 });
 //Get Checkout by ProductId and PetaniId --<<< Butuh AUthentication Petani
-router.get("/:checkoutId/:productId/:id", async (req, res) => {
+router.get("/:checkoutId/:productId/:id",authenticatePetaniJWT ,async (req, res) => {
   try {
     //Check Product id and petani Id at checkout
     const checkout = await Checkout.find({
@@ -46,7 +46,7 @@ router.get("/:checkoutId/:productId/:id", async (req, res) => {
 });
 
 //Update Status Checkout By Petani ---<<< BUTUH AUthentication Petani
-router.put("/:checkoutID/:productId/:id", async (req, res) => {
+router.put("/:checkoutID/:productId/:id", authenticatePetaniJWT,async (req, res) => {
   try {
     const checkout = await Checkout.findOneAndUpdate(
       { _id : req.params.checkoutID,productId: req.params.productId, petaniId : req.params.id },
@@ -69,7 +69,7 @@ router.put("/:checkoutID/:productId/:id", async (req, res) => {
 
 
 //COUNTING ALL PRODUCT COLLECTION
-router.get("/:id" ,async (req, res) => {
+router.get("/product-petani/:id" ,authenticatePetaniJWT,async (req, res) => {
   try {
     const count = await Product.find({
       petaniId: req.params.id,
