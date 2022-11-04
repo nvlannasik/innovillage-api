@@ -21,35 +21,13 @@ router.get("/pesanan/:id", authenticatePetaniJWT ,async (req, res) => {
     });
   }
 });
-//Get Checkout by ProductId and PetaniId --<<< Butuh AUthentication Petani
-router.get("/:checkoutId/:productId/:id",authenticatePetaniJWT ,async (req, res) => {
-  try {
-    //Check Product id and petani Id at checkout
-    const checkout = await Checkout.find({
-      _id: req.params.checkoutId,
-      productId: req.params.productId,
-      petaniId : req.params.id
-    });
-    if (checkout != null) {
-      res.status(200).send({
-        status: "success",
-        message: "Checkout retrieved successfully",
-        data: checkout 
-      });
-    }
-  } catch (err) {
-    res.status(400).send({
-      status: "failed",
-      message: "Checkout not found",
-    });
-  }
-});
+
 
 //Update Status Checkout By Petani ---<<< BUTUH AUthentication Petani
-router.put("/:checkoutID/:productId/:id", authenticatePetaniJWT,async (req, res) => {
+router.put("/pesanan/:checkoutID/:id", authenticatePetaniJWT,async (req, res) => {
   try {
     const checkout = await Checkout.findOneAndUpdate(
-      { _id : req.params.checkoutID,productId: req.params.productId, petaniId : req.params.id },
+      { _id : req.params.checkoutID, petaniId : req.params.id },
       {
         $set: {
           status: req.body.status,
@@ -85,7 +63,25 @@ router.get("/product-petani/:id" ,authenticatePetaniJWT,async (req, res) => {
     res.status(400).send(err);
   }
 });
-//Income Manual
+
+//COUNTING ALL CHECOUT STATUS PENDING
+router.get("/checkout-petani/:id" ,authenticatePetaniJWT,async (req, res) => {
+  try {
+    const count = await Checkout.find({
+      petaniId: req.params.id,
+      status: "pending",
+    }).countDocuments();
+    res.status(200).send({
+      status: "success",
+      message: "Checkout retrieved successfully",
+      data: {
+        checkoutCount: count,
+      },
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 //INCOME petani AMBIL DARI MIDTRANS <--- BELUM
 
@@ -107,61 +103,6 @@ router.get("/income" ,async (req, res) => {
 });
 
 
-//TRANSAKSI USER BERHASIL AMBIL DARI MIDTRANS <--- BELUM
-router.get("/transaksi/berhasil" ,async (req, res) => {
-  try {
-    const count = await Product.find({
-      petaniId: req.body.petaniId,
-    }).countDocuments({status: "success"});
-    res.status(200).send({
-      status: "success",
-      message: "Product retrieved successfully",
-      data: {
-        productCount: count,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-//TRANSAKSI USER BELUM BAYAR AMBIL DARI MIDTRANS <--- BELUM
-
-router.get("/transaksi/pending" ,async (req, res) => {
-  try {
-    const count = await Product.find({
-      petaniId: req.body.petaniId,
-    }).countDocuments({status: "pending"});
-    res.status(200).send({
-      status: "success",
-      message: "Product retrieved successfully",
-      data: {
-        productCount: count,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-//TRANSAKSI USER BATAL AMBIL DARI MIDTRANS <--- BELUM
-
-router.get("/transaksi/batal" ,async (req, res) => {
-  try {
-    const count = await Product.find({
-      petaniId: req.body.petaniId,
-    }).countDocuments({status: "batal"});
-    res.status(200).send({
-      status: "success",
-      message: "Product retrieved successfully",
-      data: {
-        productCount: count,
-      },
-    });
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
 
 
 
